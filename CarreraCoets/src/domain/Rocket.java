@@ -25,23 +25,39 @@ public class Rocket {
 	public float getMeters() {
 		return currentMeters;
 	}
+	
+	public float getAcceleration() {
+		return currentAcceleration;
+	}
+	
+	public Deposit getDeposit() {
+		return deposit;
+	}
 
-	public void updateAcceleration() {
-		for(int i = 0; i < propellants.size(); i++) {
+	public void calculateRocketAcceleration() {
+		for (int i = 0; i < propellants.size(); i++) {
 			currentAcceleration += propellants.get(i).getCurrentAcceleration();
+		}
+	}
+	
+	public void updatePropellantsAcceleration(float increase) {
+		for(int i = 0; i < propellants.size(); i++) {
+			propellants.get(i).increaseCurrentAcceleration(increase);
 		}
 	}
 
 	public void updateVelocity(float time) {
-		
-		this.currentVelocity = this.currentVelocity + currentAcceleration * time; 
-		
+		this.currentVelocity = this.currentVelocity + currentAcceleration * time;
 	}
 
 	public void updateMeters(float time) {
-		
-		this.currentMeters = (float) (this.currentMeters
-				+ (this.currentVelocity * time) + ((currentAcceleration/2) * Math.pow(time,2)));
+		this.currentMeters = (float) (this.currentMeters + (this.currentVelocity * time)
+				+ ((currentAcceleration / 2) * Math.pow(time, 2)));
+	}
+
+	public void updateDeposit() {
+		float consumption = (float) (0.02f * Math.pow(currentVelocity, 2));
+		deposit.recalculateValue(consumption);
 	}
 
 	public void addRocketPropellants(List<Propellant> propellants) {
