@@ -23,18 +23,19 @@ public class Circuit {
 	}
 
 	public void updateCircuit() {
-		System.out.println("Starting competition. Circuit length: "+circuitLength+" Max time: "+maximumTime);
+		System.out.println("Starting competition. Circuit length: " + circuitLength + " Max time: " + maximumTime);
 		while (currentTime < maximumTime) {
-				updateRocket(2.0f);// el 2.0f l'ha de proporcionar la classe estrategia(Depèn del moviment que li haguem programat).
-				if (emptyDeposit()) {
-					System.out.println("There is no winner \n Te quedaste sin gasofa.");
-					return;
-				} 
-				if (winner()) {
-					System.out.println("And the winner is: ViperX with a time of " + currentTime +"\n"+
-				"Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.");
-					return;
-				}
+			updateRocket(2.0f);// el 2.0f l'ha de proporcionar la classe estrategia(Depèn del moviment que li
+								// haguem programat).
+			if (emptyDeposit()) {
+				System.out.println("There is no winner \n Te quedaste sin gasofa.");
+				return;
+			}
+			if (winner()) {
+				System.out.println("And the winner is: ViperX with a time of " + currentTime + "\n"
+						+ "Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.");
+				return;
+			}
 			currentTime++;
 		}
 		System.out.println("There is no winner \n Te quedaste sin tiempo.");
