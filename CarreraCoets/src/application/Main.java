@@ -19,7 +19,7 @@ public class Main{
 		viperXPropellants.add(new Propellant(38.0f));
 		
 		Deposit depositViperX = new Deposit(2500.0f);
-		Rocket rocketViperX = new Rocket(depositViperX);
+		Rocket rocketViperX = new Rocket("ViperX", depositViperX);
 		rocketViperX.addRocketPropellants(viperXPropellants);
 		
 		Circuit freeWorld = new Circuit(1200.0f, 18.0f, rocketViperX);

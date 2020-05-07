@@ -5,17 +5,23 @@ import java.util.List;
 
 public class Rocket {
 
+	private String name;
 	private List<Propellant> propellants;
 	private Deposit deposit;
 	private float currentAcceleration;
 	private float currentVelocity;
 	private float currentMeters;
 
-	public Rocket(Deposit deposit) {
+	public Rocket( String name, Deposit deposit) {
+		this.name = name;
 		this.deposit = deposit;
 		this.propellants = new LinkedList<Propellant>();
 		this.currentVelocity = 0.0f;
 		this.currentMeters = 0.0f;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public float getVelocity() {

@@ -32,7 +32,7 @@ public class Circuit {
 				return;
 			}
 			if (winner()) {
-				System.out.println("And the winner is: ViperX with a time of " + currentTime + "\n"
+				System.out.println("And the winner is: " +rocket.getName()+ " with a time of " + currentTime + "\n"
 						+ "Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.");
 				return;
 			}
