@@ -21,6 +21,14 @@ public class Circuit {
 	public float getMaximumTime() {
 		return maximumTime;
 	}
+	
+	public float getCurrentTime() {
+		return currentTime;
+	}
+	
+	public Rocket getRocket() {
+		return rocket;
+	}
 
 	public void updateCircuit() {
 		System.out.println("Starting competition. Circuit length: " + circuitLength + " Max time: " + maximumTime);
