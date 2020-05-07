@@ -18,14 +18,14 @@ public class Propellant {
 		return currentAcceleration;
 	}
 
-	public void increaseCurrentAcceleration(float increase) {
-		if (currentAcceleration + increase > maximumAcceleration) {
+	public void setCurrentAcceleration(float newAcceleration) {
+		if (newAcceleration > maximumAcceleration) {
 			this.currentAcceleration = this.maximumAcceleration;
 		}
-		if (currentAcceleration + increase < 0.0f) {
+		if (newAcceleration < 0.0f) {
 			this.currentAcceleration = 0.0f;
 		}
-		this.currentAcceleration += increase;
+		this.currentAcceleration += newAcceleration;
 	}
 
 }

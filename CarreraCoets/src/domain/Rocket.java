@@ -46,9 +46,9 @@ public class Rocket {
 		}
 	}
 	
-	public void updatePropellantsAcceleration(float increase) {
+	public void updatePropellantsAcceleration(float newAcceleration) {
 		for(int i = 0; i < propellants.size(); i++) {
-			propellants.get(i).increaseCurrentAcceleration(increase);
+			propellants.get(i).setCurrentAcceleration(newAcceleration);
 		}
 	}
 
