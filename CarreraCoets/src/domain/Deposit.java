@@ -19,6 +19,11 @@ public class Deposit {
 	}
 
 	public void recalculateValue(float consumption) {
-		currentFuel -= consumption;
+		if ((currentFuel - consumption) < 0) {
+			currentFuel = 0;
+		}
+		else{
+			currentFuel -= consumption;
+		}
 	}
 }
