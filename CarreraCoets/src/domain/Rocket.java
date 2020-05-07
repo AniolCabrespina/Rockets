@@ -12,14 +12,14 @@ public class Rocket {
 	private float currentVelocity;
 	private float currentMeters;
 
-	public Rocket( String name, Deposit deposit) {
+	public Rocket(String name, Deposit deposit) {
 		this.name = name;
 		this.deposit = deposit;
 		this.propellants = new LinkedList<Propellant>();
 		this.currentVelocity = 0.0f;
 		this.currentMeters = 0.0f;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -31,23 +31,25 @@ public class Rocket {
 	public float getMeters() {
 		return currentMeters;
 	}
-	
+
 	public float getAcceleration() {
 		return currentAcceleration;
 	}
-	
+
 	public Deposit getDeposit() {
 		return deposit;
 	}
 
 	public void calculateRocketAcceleration() {
+		float newAcceleration = 0.0f;
 		for (int i = 0; i < propellants.size(); i++) {
-			currentAcceleration += propellants.get(i).getCurrentAcceleration();
+			newAcceleration += propellants.get(i).getCurrentAcceleration();
 		}
+		this.currentAcceleration = newAcceleration;
 	}
-	
+
 	public void updatePropellantsAcceleration(float newAcceleration) {
-		for(int i = 0; i < propellants.size(); i++) {
+		for (int i = 0; i < propellants.size(); i++) {
 			propellants.get(i).setCurrentAcceleration(newAcceleration);
 		}
 	}

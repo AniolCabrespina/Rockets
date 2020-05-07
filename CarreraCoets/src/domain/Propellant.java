@@ -25,7 +25,7 @@ public class Propellant {
 		if (newAcceleration < 0.0f) {
 			this.currentAcceleration = 0.0f;
 		}
-		this.currentAcceleration += newAcceleration;
+		this.currentAcceleration = newAcceleration;
 	}
 
 }
