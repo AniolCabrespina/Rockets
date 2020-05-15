@@ -5,8 +5,11 @@ public class Deposit {
 	private float totalFuel;
 	private float currentFuel;
 
-	public Deposit(float total) {
-		this.totalFuel = total;
+	public Deposit(float totalFuel) throws Exception {
+		if (totalFuel <= 0) {
+			throw new Exception("The Total Fuel can't be less or equal than 0.");
+		}
+		this.totalFuel = totalFuel;
 		this.currentFuel = this.totalFuel;
 	}
 

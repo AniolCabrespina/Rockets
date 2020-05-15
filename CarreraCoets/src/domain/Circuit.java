@@ -11,9 +11,15 @@ public class Circuit {
 	private Rocket currentRocket;
 	private List<Rocket> rocketsList;
 
-	public Circuit(float meters, float time) {
-		this.circuitLength = meters;
-		this.maximumTime = time;
+	public Circuit(float circuitLength, float maximumTime) throws Exception {
+		if (circuitLength <= 0) {
+			throw new Exception("The Circuit Length can't be less or equal than 0.");
+		}
+		if (maximumTime <= 0) {
+			throw new Exception("The Maximum Time can't be less or equal than 0.");
+		}
+		this.circuitLength = circuitLength;
+		this.maximumTime = maximumTime;
 		this.currentTime = 0;
 		this.rocketsList = new LinkedList<Rocket>();
 	}
@@ -43,13 +49,19 @@ public class Circuit {
 	}
 
 	public String updateRocket(float acceleration) {
+
 		currentRocket.updatePropellantsAcceleration(acceleration);
 		currentRocket.calculateRocketAcceleration();
 		currentRocket.updateVelocity(currentTime);
-		currentRocket.updateMeters(currentTime);
 		currentRocket.getDeposit().updateDeposit(currentRocket.getVelocity());
 		
-		return toString(acceleration);
+		if (isDepositEmpty()) {
+			return toStringDepositEmpty(currentRocket.getAcceleration());
+		}
+		
+		currentRocket.updateMeters(currentTime);
+
+		return toString(currentRocket.getAcceleration());
 	}
 
 	public String toString(float acceleration) {
@@ -57,6 +69,12 @@ public class Circuit {
 				+ currentRocket.getVelocity() + " Distance: " + currentRocket.getMeters() + " Circuit: " + circuitLength
 				+ " Fuel: " + currentRocket.getDeposit().getCurrentFuel() + " / "
 				+ currentRocket.getDeposit().getTotalFuel();
+	}
+
+	public String toStringDepositEmpty(float acceleration) {
+		return "Current Time: " + currentTime + " Acceleration: " + acceleration + " Speed: 0.0 Distance: "
+				+ currentRocket.getMeters() + " Circuit: " + circuitLength + " Fuel: "
+				+ currentRocket.getDeposit().getCurrentFuel() + " / " + currentRocket.getDeposit().getTotalFuel();
 	}
 
 	public boolean hasWin() {

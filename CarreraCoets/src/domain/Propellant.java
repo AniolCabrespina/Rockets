@@ -5,7 +5,10 @@ public class Propellant {
 	private float maximumAcceleration;
 	private float currentAcceleration;
 
-	public Propellant(float maximumAcceleration) {
+	public Propellant(float maximumAcceleration) throws Exception {
+		if (maximumAcceleration <= 0) {
+			throw new Exception("Maximum Acceleration can't be less or equal than 0.");
+		}
 		this.maximumAcceleration = maximumAcceleration;
 		this.currentAcceleration = 0.0f;
 	}
@@ -22,7 +25,7 @@ public class Propellant {
 		if (newAcceleration > maximumAcceleration) {
 			this.currentAcceleration = this.maximumAcceleration;
 		}
-		if (newAcceleration < 0.0f) {
+		else if (newAcceleration < 0.0f) {
 			this.currentAcceleration = 0.0f;
 		}
 		else {

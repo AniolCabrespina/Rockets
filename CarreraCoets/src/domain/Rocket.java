@@ -12,7 +12,13 @@ public class Rocket {
 	private float currentVelocity;
 	private float currentMeters;
 
-	public Rocket(String name, Deposit deposit) {
+	public Rocket(String name, Deposit deposit) throws Exception {
+		if(name.equals(null) || name.equals("")) {
+			throw new Exception("Name can't be null/empty.");
+		}
+		if(deposit.equals(null)) {
+			throw new Exception("Deposit can't be null.");
+		}
 		this.name = name;
 		this.deposit = deposit;
 		this.propellants = new LinkedList<Propellant>();
