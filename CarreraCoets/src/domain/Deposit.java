@@ -26,4 +26,9 @@ public class Deposit {
 			currentFuel -= consumption;
 		}
 	}
+	
+	public void updateDeposit(float currentVelocity) {
+		float consumption = (float) (0.02f * Math.pow(currentVelocity, 2));
+		recalculateValue(consumption);
+	}
 }

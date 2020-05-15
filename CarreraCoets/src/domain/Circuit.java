@@ -1,17 +1,21 @@
 package domain;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Circuit {
 
 	private float circuitLength;
 	private float maximumTime;
 	private float currentTime;
-	private Rocket rocket;
+	private Rocket currentRocket;
+	private List<Rocket> rocketsList;
 
-	public Circuit(float meters, float time, Rocket rocket) {
+	public Circuit(float meters, float time) {
 		this.circuitLength = meters;
 		this.maximumTime = time;
-		this.rocket = rocket;
 		this.currentTime = 0;
+		this.rocketsList = new LinkedList<Rocket>();
 	}
 
 	public float getCircuitLength() {
@@ -21,55 +25,50 @@ public class Circuit {
 	public float getMaximumTime() {
 		return maximumTime;
 	}
-	
+
 	public float getCurrentTime() {
 		return currentTime;
 	}
-	
-	public Rocket getRocket() {
-		return rocket;
+
+	public void setCurrentTime(float currentTime) {
+		this.currentTime = currentTime;
 	}
 
-	public void updateCircuit() {
-		System.out.println("Starting competition. Circuit length: " + circuitLength + " Max time: " + maximumTime);
-		while (currentTime < maximumTime) {
-			updateRocket(2.0f);// el 2.0f l'ha de proporcionar la classe estrategia(Depèn del moviment que li
-								// haguem programat).
-			if (emptyDeposit()) {
-				System.out.println("There is no winner \n Te quedaste sin gasofa.");
-				return;
-			}
-			if (winner()) {
-				System.out.println("And the winner is: " +rocket.getName()+ " with a time of " + currentTime + "\n"
-						+ "Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.");
-				return;
-			}
-			currentTime++;
-		}
-		System.out.println("There is no winner \n Te quedaste sin tiempo.");
+	public List<Rocket> getRocketsList() {
+		return this.rocketsList;
 	}
 
-	public void updateRocket(float acceleration) {
-		rocket.updatePropellantsAcceleration(acceleration);
-		rocket.calculateRocketAcceleration();
-		rocket.updateVelocity(currentTime);
-		rocket.updateMeters(currentTime);
-		rocket.updateDeposit();
-		System.out.println(toString(acceleration));
+	public void addRocket(Rocket rocket) {
+		rocketsList.add(rocket);
+	}
+
+	public String updateRocket(float acceleration) {
+		currentRocket.updatePropellantsAcceleration(acceleration);
+		currentRocket.calculateRocketAcceleration();
+		currentRocket.updateVelocity(currentTime);
+		currentRocket.updateMeters(currentTime);
+		currentRocket.getDeposit().updateDeposit(currentRocket.getVelocity());
+		
+		return toString(acceleration);
 	}
 
 	public String toString(float acceleration) {
-		return "Current Time: " + currentTime + " Acceleration: " + acceleration + " Speed: " + rocket.getVelocity()
-				+ " Distance: " + rocket.getMeters() + " Circuit: " + circuitLength + " Fuel: "
-				+ rocket.getDeposit().getCurrentFuel() + " / " + rocket.getDeposit().getTotalFuel();
+		return "Current Time: " + currentTime + " Acceleration: " + acceleration + " Speed: "
+				+ currentRocket.getVelocity() + " Distance: " + currentRocket.getMeters() + " Circuit: " + circuitLength
+				+ " Fuel: " + currentRocket.getDeposit().getCurrentFuel() + " / "
+				+ currentRocket.getDeposit().getTotalFuel();
 	}
 
-	public boolean winner() {
-		return rocket.getMeters() >= circuitLength;
+	public boolean hasWin() {
+		return currentRocket.getMeters() >= circuitLength;
 	}
 
-	public boolean emptyDeposit() {
-		return rocket.getDeposit().getCurrentFuel() <= 0;
+	public boolean isDepositEmpty() {
+		return currentRocket.getDeposit().getCurrentFuel() <= 0;
+	}
+
+	public void setCurrentRocket(Rocket currentRocket) {
+		this.currentRocket = currentRocket;
 	}
 
 }

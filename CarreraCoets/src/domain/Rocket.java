@@ -63,10 +63,7 @@ public class Rocket {
 				+ ((currentAcceleration / 2) * Math.pow(time, 2)));
 	}
 
-	public void updateDeposit() {
-		float consumption = (float) (0.02f * Math.pow(currentVelocity, 2));
-		deposit.recalculateValue(consumption);
-	}
+	
 
 	public void addRocketPropellants(List<Propellant> propellants) {
 		for (int i = 0; i < propellants.size(); i++) {
