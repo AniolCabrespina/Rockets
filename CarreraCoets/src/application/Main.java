@@ -1,6 +1,5 @@
 package application;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import domain.Circuit;
 import domain.Propellant;
 import domain.Deposit;
 import domain.Rocket;
-import domain.Strategy;
 
 public class Main {
 
@@ -26,29 +24,19 @@ public class Main {
 	}
 
 	public static void updateCircuit(Circuit circuit) throws Exception {
-		List<Rocket> rocketsList = circuit.getRocketsList();
+		Rocket winner;
 		while (circuit.getCurrentTime() <= circuit.getMaximumTime()) {
-			Iterator it = rocketsList.iterator();
-			while (it.hasNext()) {
-				Rocket currentRocket = (Rocket) it.next();
-				circuit.setCurrentRocket(currentRocket);
-				System.out.println(circuit.updateRocket(Strategy.getInstance().move(circuit.getCurrentTime())));
-
-				if (circuit.hasWin()) {
-					System.out.println("And the winner is: " + currentRocket.getName() + " with a time of "
-							+ circuit.getCurrentTime() + "\n" + "Ha ganao pisha! En el segundo: "
-							+ circuit.getCurrentTime() + " segundo/s.");
-					return;
-				}
-
+			System.out.print(circuit.updateAllRockets());
+			winner = circuit.hasWin();
+			if (winner instanceof Rocket) {
+				System.out.println(
+						"And the winner is: " + winner.getName() + " with a time of " + circuit.getCurrentTime() + "\n"
+								+ "Ha ganao pisha! En el segundo: " + circuit.getCurrentTime() + " segundo/s.");
+				return;
 			}
 			circuit.setCurrentTime(circuit.getCurrentTime() + 1);
 		}
-		if (circuit.isDepositEmpty()) {
-			System.out.print("There is no winner \n Te quedaste sin gasofa.");
-		} else {
-			System.out.println("There is no winner \n Te quedaste sin tiempo.");
-		}
+		System.out.println("There is no winner.");
 	}
 
 	public static Rocket createRocket() throws Exception {

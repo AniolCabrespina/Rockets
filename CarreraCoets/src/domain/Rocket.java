@@ -60,17 +60,15 @@ public class Rocket {
 		}
 	}
 
-	public void updateVelocity(float time) {
-		this.currentVelocity = this.currentVelocity + currentAcceleration * time;
+	public void updateVelocity() {
+		this.currentVelocity = this.currentVelocity + currentAcceleration * 1;
 	}
 
-	public void updateMeters(float time) {
-		this.currentMeters = (float) (this.currentMeters + (this.currentVelocity * time)
-				+ ((currentAcceleration / 2) * Math.pow(time, 2)));
+	public void updateMeters() {
+		this.currentMeters = (float) (this.currentMeters + (this.currentVelocity * 1)
+				+ ((currentAcceleration / 2) * Math.pow(1, 2)));
 	}
-
 	
-
 	public void addRocketPropellants(List<Propellant> propellants) {
 		for (int i = 0; i < propellants.size(); i++) {
 			this.propellants.add(propellants.get(i));

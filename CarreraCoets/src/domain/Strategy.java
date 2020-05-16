@@ -16,11 +16,11 @@ public class Strategy {
 		case 0:
 			return 0;
 		case 1:
-			return 10.03f;
+			return 30;
 		case 2:
-			return 4;
+			return 5;
 		case 3:
-			return 40;
+			return 5;
 		case 4:
 			return 0;
 		case 5:
@@ -36,7 +36,7 @@ public class Strategy {
 		case 10:
 			return 0;
 		case 11:
-			return 0;
+			return 1;
 		case 12:
 			return 0;
 		case 13:
