@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
-			Rocket rocket = createRocketViperX();
+			Rocket rocket = createRocket();
 			Circuit circuit = new Circuit(1200.0f, 18.0f);
 			circuit.addRocket(rocket);
 			startRace(circuit);
@@ -51,7 +51,7 @@ public class Main {
 		}
 	}
 
-	public static Rocket createRocketViperX() throws Exception {
+	public static Rocket createRocket() throws Exception {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(50.0f));
 		rocketPropellants.add(new Propellant(20.0f));
