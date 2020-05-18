@@ -21,17 +21,21 @@ public class Deposit {
 		return currentFuel;
 	}
 
-	public void updateFuel(float consumption) {
+	public void updateFuel(float consumption) throws Exception {
 		if ((currentFuel - consumption) < 0) {
-			currentFuel = 0;
+			throw new Exception("No fuel left.");
 		}
 		else{
 			currentFuel -= consumption;
 		}
 	}
 	
-	public void updateDeposit(float currentVelocity) {
+	public void updateDeposit(float currentVelocity) throws Exception {
 		float consumption = (float) (0.02f * Math.pow(currentVelocity, 2));
 		updateFuel(consumption);
+	}
+	
+	public boolean isEmpty() {
+		return currentFuel <= 0;
 	}
 }

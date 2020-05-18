@@ -48,15 +48,15 @@ public class Rocket {
 
 	public void calculateRocketAcceleration() {
 		float newAcceleration = 0.0f;
-		for (int i = 0; i < propellants.size(); i++) {
-			newAcceleration += propellants.get(i).getCurrentAcceleration();
+		for (Propellant propellant: propellants) {
+			newAcceleration += propellant.getCurrentAcceleration();
 		}
 		this.currentAcceleration = newAcceleration;
 	}
-
+	
 	public void updatePropellantsAcceleration(float newAcceleration) {
-		for (int i = 0; i < propellants.size(); i++) {
-			propellants.get(i).setCurrentAcceleration(newAcceleration);
+		for (Propellant propellant: propellants) {
+			propellant.setCurrentAcceleration(newAcceleration);
 		}
 	}
 
@@ -69,10 +69,18 @@ public class Rocket {
 				+ ((currentAcceleration / 2) * Math.pow(1, 2)));
 	}
 	
+	public void updateDeposit(float currentVelocity) throws Exception {
+		deposit.updateDeposit(currentVelocity);
+	}
+	
 	public void addRocketPropellants(List<Propellant> propellants) {
-		for (int i = 0; i < propellants.size(); i++) {
-			this.propellants.add(propellants.get(i));
+		for (Propellant propellant: propellants) {
+			this.propellants.add(propellant);
 		}
+	}
+	
+	public boolean isDepositEmpty() {
+		return deposit.isEmpty();
 	}
 
 }

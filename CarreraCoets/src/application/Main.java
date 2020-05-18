@@ -25,7 +25,7 @@ public class Main {
 
 	public static void updateCircuit(Circuit circuit) throws Exception {
 		Rocket winner;
-		while (circuit.getCurrentTime() <= circuit.getMaximumTime()) {
+		while (timeLeft(circuit)) {
 			System.out.print(circuit.updateAllRockets());
 			winner = circuit.hasWin();
 			if (winner instanceof Rocket) {
@@ -34,7 +34,7 @@ public class Main {
 								+ "Ha ganao pisha! En el segundo: " + circuit.getCurrentTime() + " segundo/s.");
 				return;
 			}
-			circuit.setCurrentTime(circuit.getCurrentTime() + 1);
+			updateTime(circuit);
 		}
 		System.out.println("There is no winner.");
 	}
@@ -56,5 +56,13 @@ public class Main {
 		System.out.println("Starting competition. Circuit length: " + circuit.getCircuitLength() + " Max time: "
 				+ circuit.getMaximumTime());
 		updateCircuit(circuit);
+	}
+	
+	public static boolean timeLeft(Circuit circuit) {
+		return circuit.getCurrentTime() <= circuit.getMaximumTime();
+	}
+	
+	public static void updateTime(Circuit circuit) {
+		circuit.setCurrentTime(circuit.getCurrentTime() + 1);
 	}
 }

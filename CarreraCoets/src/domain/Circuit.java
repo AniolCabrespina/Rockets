@@ -1,6 +1,5 @@
 package domain;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,15 +48,10 @@ public class Circuit {
 	}
 
 	public String updateAllRockets() throws Exception {
-		Iterator it = rocketsList.iterator();
 		String circuitInfo = "";
-		while (it.hasNext()) {
-			Rocket currentRocket = (Rocket) it.next();
-			circuitInfo = updateRocket(Strategy.getInstance().move(getCurrentTime()),currentRocket) + "\n";
-		}
-
-		if (circuitInfo.equals("")) {
-			throw new Exception("Error: There are no rockets.");
+		for (Rocket currentRocket : rocketsList) {
+			float acceleration = Strategy.getInstance().move(getCurrentTime());
+			circuitInfo = updateRocket(acceleration, currentRocket) + "\n";
 		}
 		return circuitInfo;
 	}
@@ -67,12 +61,11 @@ public class Circuit {
 		currentRocket.updatePropellantsAcceleration(acceleration);
 		currentRocket.calculateRocketAcceleration();
 		currentRocket.updateVelocity();
-		currentRocket.getDeposit().updateDeposit(currentRocket.getVelocity());
-
-		if (isDepositEmpty(currentRocket)) {
+		try {
+			currentRocket.updateDeposit(currentRocket.getVelocity());
+		} catch (Exception e) {
 			return toStringDepositEmpty(currentRocket.getAcceleration(), currentRocket);
 		}
-
 		currentRocket.updateMeters();
 
 		return toString(currentRocket.getAcceleration(), currentRocket);
@@ -92,10 +85,8 @@ public class Circuit {
 	}
 
 	public Rocket hasWin() {
-		Iterator it = rocketsList.iterator();
-		while (it.hasNext()) {
-			Rocket currentRocket = (Rocket) it.next();
-			if(currentRocket.getMeters() >= circuitLength) {
+		for (Rocket currentRocket : rocketsList) {
+			if (currentRocket.getMeters() >= circuitLength) {
 				return currentRocket;
 			}
 		}
@@ -103,7 +94,7 @@ public class Circuit {
 	}
 
 	public boolean isDepositEmpty(Rocket currentRocket) {
-		return currentRocket.getDeposit().getCurrentFuel() <= 0;
+		return currentRocket.isDepositEmpty();
 	}
 
 }
