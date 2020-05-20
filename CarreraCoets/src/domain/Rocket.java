@@ -6,12 +6,11 @@ import java.util.List;
 public class Rocket {
 
 	private String name;
-	private List<Propellant> propellants;
+	private List<Propellant> propellants = new LinkedList<Propellant>();
 	private Deposit deposit;
-	private float currentAcceleration;
-	private float currentVelocity;
-	private float currentMeters;
-
+	private float currentVelocity = 0.0f;
+	private float currentMeters = 0.0f;
+ 
 	public Rocket(String name, Deposit deposit) throws Exception {
 		if(name.equals(null) || name.equals("")) {
 			throw new Exception("Name can't be null/empty.");
@@ -21,9 +20,6 @@ public class Rocket {
 		}
 		this.name = name;
 		this.deposit = deposit;
-		this.propellants = new LinkedList<Propellant>();
-		this.currentVelocity = 0.0f;
-		this.currentMeters = 0.0f;
 	}
 
 	public String getName() {
@@ -38,20 +34,16 @@ public class Rocket {
 		return currentMeters;
 	}
 
-	public float getAcceleration() {
-		return currentAcceleration;
-	}
-
 	public Deposit getDeposit() {
 		return deposit;
 	}
 
-	public void calculateRocketAcceleration() {
+	public float calculateRocketAcceleration() {
 		float newAcceleration = 0.0f;
 		for (Propellant propellant: propellants) {
 			newAcceleration += propellant.getCurrentAcceleration();
 		}
-		this.currentAcceleration = newAcceleration;
+		return newAcceleration;
 	}
 	
 	public void updatePropellantsAcceleration(float newAcceleration) {
@@ -61,12 +53,12 @@ public class Rocket {
 	}
 
 	public void updateVelocity() {
-		this.currentVelocity = this.currentVelocity + currentAcceleration * 1;
+		this.currentVelocity = this.currentVelocity + calculateRocketAcceleration() * 1;
 	}
 
 	public void updateMeters() {
 		this.currentMeters = (float) (this.currentMeters + (this.currentVelocity * 1)
-				+ ((currentAcceleration / 2) * Math.pow(1, 2)));
+				+ ((calculateRocketAcceleration() / 2) * Math.pow(1, 2)));
 	}
 	
 	public void updateDeposit(float currentVelocity) throws Exception {

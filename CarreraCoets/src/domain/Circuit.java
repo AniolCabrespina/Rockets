@@ -7,8 +7,8 @@ public class Circuit {
 
 	private float circuitLength;
 	private float maximumTime;
-	private float currentTime;
-	private List<Rocket> rocketsList;
+	private float currentTime = 0;
+	private List<Rocket> rocketsList = new LinkedList<Rocket>();
 
 	public Circuit(float circuitLength, float maximumTime) throws Exception {
 		if (circuitLength <= 0) {
@@ -19,8 +19,6 @@ public class Circuit {
 		}
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
-		this.currentTime = 0;
-		this.rocketsList = new LinkedList<Rocket>();
 	}
 
 	public float getCircuitLength() {
@@ -64,11 +62,11 @@ public class Circuit {
 		try {
 			currentRocket.updateDeposit(currentRocket.getVelocity());
 		} catch (Exception e) {
-			return toStringDepositEmpty(currentRocket.getAcceleration(), currentRocket);
+			return toStringDepositEmpty(currentRocket.calculateRocketAcceleration(), currentRocket);
 		}
 		currentRocket.updateMeters();
 
-		return toString(currentRocket.getAcceleration(), currentRocket);
+		return toString(currentRocket.calculateRocketAcceleration(), currentRocket);
 	}
 
 	public String toString(float acceleration, Rocket currentRocket) {
@@ -84,13 +82,27 @@ public class Circuit {
 				+ currentRocket.getDeposit().getCurrentFuel() + " / " + currentRocket.getDeposit().getTotalFuel();
 	}
 
-	public Rocket hasWin() {
+	/**
+	 * This function searches for a rocket that has win the race, that means that has arrived to the goal
+	 * If no rocket is found, cause no rocket has won
+	 * It will return a null
+	 * @return
+	 */
+	public Rocket getWinner() {
 		for (Rocket currentRocket : rocketsList) {
 			if (currentRocket.getMeters() >= circuitLength) {
 				return currentRocket;
 			}
 		}
 		return null;
+	}
+	
+	public boolean timeLeft() {
+		return currentTime <= maximumTime;
+	}
+	
+	public void updateTime() {
+		currentTime++;
 	}
 
 	public boolean isDepositEmpty(Rocket currentRocket) {

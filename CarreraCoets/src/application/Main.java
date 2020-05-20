@@ -23,20 +23,10 @@ public class Main {
 
 	}
 
-	public static void updateCircuit(Circuit circuit) throws Exception {
-		Rocket winner;
-		while (timeLeft(circuit)) {
-			System.out.print(circuit.updateAllRockets());
-			winner = circuit.hasWin();
-			if (winner instanceof Rocket) {
-				System.out.println(
-						"And the winner is: " + winner.getName() + " with a time of " + circuit.getCurrentTime() + "\n"
-								+ "Ha ganao pisha! En el segundo: " + circuit.getCurrentTime() + " segundo/s.");
-				return;
-			}
-			updateTime(circuit);
-		}
-		System.out.println("There is no winner.");
+	public static void startRace(Circuit circuit) throws Exception {
+		System.out.println("Starting competition. Circuit length: " + circuit.getCircuitLength() + " Max time: "
+				+ circuit.getMaximumTime());
+		updateCircuit(circuit);
 	}
 
 	public static Rocket createRocket() throws Exception {
@@ -52,17 +42,26 @@ public class Main {
 		return rocket;
 	}
 
-	public static void startRace(Circuit circuit) throws Exception {
-		System.out.println("Starting competition. Circuit length: " + circuit.getCircuitLength() + " Max time: "
-				+ circuit.getMaximumTime());
-		updateCircuit(circuit);
+	public static void updateCircuit(Circuit circuit) throws Exception {
+		Rocket winner;
+		while (circuit.timeLeft()) {
+			System.out.print(circuit.updateAllRockets());
+			winner = circuit.getWinner();
+			if (winner instanceof Rocket) {
+				System.out.println(winnerMessage(winner, circuit));
+				return;
+			} else {
+				circuit.updateTime();
+			}
+		}
+		System.out.println("There is no winner.");
 	}
-	
-	public static boolean timeLeft(Circuit circuit) {
-		return circuit.getCurrentTime() <= circuit.getMaximumTime();
+
+	public static String winnerMessage(Rocket winner, Circuit circuit) {
+		String msg = "";
+		msg = "And the winner is: " + winner.getName() + " with a time of " + circuit.getCurrentTime() + "\n"
+				+ "Ha ganao pisha! En el segundo: " + circuit.getCurrentTime() + " segundo/s.";
+		return msg;
 	}
-	
-	public static void updateTime(Circuit circuit) {
-		circuit.setCurrentTime(circuit.getCurrentTime() + 1);
-	}
+
 }
