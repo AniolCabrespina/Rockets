@@ -52,8 +52,7 @@ public class Strategy {
 		case 18:
 			return 0;
 		default:
-			throw new Exception("Error: no time left.");
-			
+			throw new Exception("Error: no time left.");		
 		
 		}
 	}
