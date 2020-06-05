@@ -1,72 +1,39 @@
 package view;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import application.RaceController;
-import domain.Circuit;
-import domain.Propellant;
-import domain.Deposit;
-import domain.Rocket;
+import application.dto.CircuitDTO;
+import application.dto.RocketDTO;
+import utilities.InvalidParamException;
 
 public class Main {
-	
+
 	private static RaceController controller = new RaceController();
 
 	public static void main(String[] args) {
 
 		try {
-			Rocket rocket = createRocket();
-			Circuit circuit = new Circuit(1200.0f, 18.0f);
-			circuit.addRocket(rocket);
-			startRace(circuit);
+			List<RocketDTO> rocketsList = createRockets();
+			CircuitDTO circuit = createCircuit();
+			startRace(circuit, rocketsList);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 
 	}
 
-	public static void startRace(Circuit circuit) throws Exception {
-		System.out.println("Starting competition. Circuit length: " + circuit.getCircuitLength() + " Max time: "
-				+ circuit.getMaximumTime());
-		updateCircuit(circuit);
+	private static List<RocketDTO> createRockets() throws InvalidParamException {
+		return controller.createRockets();
 	}
 
-	public static Rocket createRocket() throws Exception {
-		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
-		rocketPropellants.add(new Propellant(50.0f));
-		rocketPropellants.add(new Propellant(20.0f));
-		rocketPropellants.add(new Propellant(38.0f));
-
-		Deposit fuelTank = new Deposit(2500.0f);
-		Rocket rocket = new Rocket("ViperX", fuelTank);
-		rocket.addRocketPropellants(rocketPropellants);
-
-		return rocket;
+	public static CircuitDTO createCircuit() throws InvalidParamException{
+		return controller.createCircuit();
 	}
 
-	public static void updateCircuit(Circuit circuit) throws Exception {
-		Rocket winner;
-		while (circuit.timeLeft()) {
-			TimeUnit.SECONDS.sleep(1);
-			System.out.print(circuit.updateAllRockets());
-			winner = circuit.getWinner();
-			if (winner instanceof Rocket) {
-				System.out.println(winnerMessage(winner, circuit));
-				return;
-			} else {
-				circuit.updateTime();
-			}
-		}
-		System.out.println("There is no winner.");
+	public static void startRace(CircuitDTO circuitDTO, List<RocketDTO> rocketsListDTO) throws Exception{
+		System.out.println("Starting competition. Circuit length: " + circuitDTO.getCircuitLength() + " Max time: "
+				+ circuitDTO.getMaximumTime());
+		controller.updateCircuit(circuitDTO, rocketsListDTO);
 	}
-
-	public static String winnerMessage(Rocket winner, Circuit circuit) {
-		String msg = "";
-		msg = "And the winner is: " + winner.getName() + " with a time of " + circuit.getCurrentTime() + "\n"
-				+ "Ha ganao pisha! En el segundo: " + circuit.getCurrentTime() + " segundo/s.";
-		return msg;
-	}
-
 }

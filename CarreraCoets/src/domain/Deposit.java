@@ -1,13 +1,15 @@
 package domain;
 
+import utilities.InvalidParamException;
+
 public class Deposit {
 
 	private float totalFuel;
 	private float currentFuel;
 
-	public Deposit(float totalFuel) throws Exception {
+	public Deposit(float totalFuel) throws InvalidParamException {
 		if (totalFuel <= 0) {
-			throw new Exception("The Total Fuel can't be less or equal than 0.");
+			throw new InvalidParamException();
 		}
 		this.totalFuel = totalFuel;
 		this.currentFuel = this.totalFuel;
@@ -21,16 +23,16 @@ public class Deposit {
 		return currentFuel;
 	}
 
-	public void updateFuel(float consumption) throws Exception {
+	public void updateFuel(float consumption) throws InvalidParamException {
 		if ((currentFuel - consumption) < 0) {
-			throw new Exception("No fuel left.");
+			throw new InvalidParamException();
 		}
 		else{
 			currentFuel -= consumption;
 		}
 	}
 	
-	public void updateDeposit(float currentVelocity) throws Exception {
+	public void updateDeposit(float currentVelocity) throws InvalidParamException{
 		float consumption = (float) (0.02f * Math.pow(currentVelocity, 2));
 		updateFuel(consumption);
 	}

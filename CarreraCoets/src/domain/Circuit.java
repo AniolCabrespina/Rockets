@@ -11,13 +11,12 @@ public class Circuit {
 	private float circuitLength;
 	private float maximumTime;
 	private float currentTime;
-	private List<Rocket> rocketsList;
 	
 	public Circuit() {
 		
 	}
 
-	public Circuit(String name, float circuitLength, float maximumTime, List<Rocket> rocketsList) throws InvalidParamException {
+	public Circuit(String name, float circuitLength, float maximumTime) throws InvalidParamException {
 		if (name == null || name.equals("")) {
 			throw new InvalidParamException();
 		}
@@ -31,7 +30,6 @@ public class Circuit {
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
 		this.currentTime = 0;
-		this.rocketsList.addAll(rocketsList);
 	}
 	
 	public Circuit(CircuitDTO circuitDTO) throws InvalidParamException {
@@ -42,7 +40,6 @@ public class Circuit {
 		this.circuitLength = circuitDTO.getCircuitLength();
 		this.maximumTime = circuitDTO.getMaximumTime();
 		this.currentTime = 0;
-		this.rocketsList.addAll(circuitDTO.getRocketsList());
 	}
 	
 	public String getName() {
@@ -65,15 +62,7 @@ public class Circuit {
 		this.currentTime = currentTime;
 	}
 
-	public List<Rocket> getRocketsList() {
-		return this.rocketsList;
-	}
-
-	public void addRocket(Rocket rocket) {
-		rocketsList.add(rocket);
-	}
-
-	public String updateAllRockets() throws Exception {
+	public String updateAllRockets(List<Rocket> rocketsList) throws InvalidParamException {
 		String circuitInfo = "";
 		for (Rocket currentRocket : rocketsList) {
 			float acceleration = Strategy.getInstance().move(getCurrentTime());
@@ -116,7 +105,7 @@ public class Circuit {
 	 * It will return a null
 	 * @return
 	 */
-	public Rocket getWinner() {
+	public Rocket getWinner(List<Rocket> rocketsList) {
 		for (Rocket currentRocket : rocketsList) {
 			if (currentRocket.getMeters() >= circuitLength) {
 				return currentRocket;

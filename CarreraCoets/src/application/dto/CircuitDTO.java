@@ -1,9 +1,6 @@
 package application.dto;
 
-import java.util.List;
-
 import domain.Circuit;
-import domain.Rocket;
 import utilities.InvalidParamException;
 
 public class CircuitDTO {
@@ -12,18 +9,16 @@ public class CircuitDTO {
 	private float circuitLength;
 	private float maximumTime;
 	private float currentTime;
-	private List<Rocket> rocketsList;
 	
 	public CircuitDTO() {
 		
 	}
 	
-	public CircuitDTO (String name, float circuitLength, float maximumTime, List<Rocket> rocketsList) throws InvalidParamException{
+	public CircuitDTO (String name, float circuitLength, float maximumTime) throws InvalidParamException{
 		this.name = name;
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
 		this.currentTime = 0;
-		this.rocketsList.addAll(rocketsList);
 	}
 	
 	
@@ -35,7 +30,6 @@ public class CircuitDTO {
 		this.circuitLength = circuit.getCircuitLength();
 		this.maximumTime = circuit.getMaximumTime();
 		this.currentTime = circuit.getCurrentTime();
-		this.rocketsList.addAll(circuit.getRocketsList());
 	}
 	
 	public float getCircuitLength() throws InvalidParamException {
@@ -55,12 +49,6 @@ public class CircuitDTO {
 			throw new InvalidParamException();
 		}
 		return currentTime;
-	}
-	public List<Rocket> getRocketsList() throws InvalidParamException {
-		if(rocketsList == null || rocketsList.size() == 0 || rocketsList.contains(null)) {
-			throw new InvalidParamException();
-		}
-		return rocketsList;
 	}
 
 	public String getName() throws InvalidParamException {

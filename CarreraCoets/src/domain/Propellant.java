@@ -1,13 +1,15 @@
 package domain;
 
+import utilities.InvalidParamException;
+
 public class Propellant {
 
 	private float maximumAcceleration;
 	private float currentAcceleration = 0.0f;
 
-	public Propellant(float maximumAcceleration) throws Exception {
+	public Propellant(float maximumAcceleration) throws InvalidParamException{
 		if (maximumAcceleration <= 0) {
-			throw new Exception("Maximum Acceleration can't be less or equal than 0.");
+			throw new InvalidParamException();
 		}
 		this.maximumAcceleration = maximumAcceleration;
 	}

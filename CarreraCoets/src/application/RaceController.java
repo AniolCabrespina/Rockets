@@ -1,26 +1,39 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import application.dto.CircuitDTO;
+import application.dto.RocketDTO;
 import domain.Circuit;
+import domain.CircuitFactory;
 import domain.Rocket;
-import persistence.CircuitRepository;
+import domain.RocketFactory;
+import utilities.InvalidParamException;
 
 public class RaceController {
 
-	public CircuitDTO createCircuit(CircuitDTO circuitDTO) throws Exception {
-		Circuit circuit = new Circuit(circuitDTO);
+	public List<RocketDTO> createRockets() throws InvalidParamException{
+		List<Rocket> rocketsList = new ArrayList<Rocket>();
+		rocketsList.addAll(RocketFactory.createRockets());
+		List<RocketDTO> rocketsListDTO = convertRocketsListToRocketsListDTO(rocketsList);
+		return rocketsListDTO;
+	}
+	
+	public CircuitDTO createCircuit() throws InvalidParamException{
+		Circuit circuit = CircuitFactory.createCircuit();
 		return new CircuitDTO(circuit);
 	}
 
-	public void updateCircuit(String circuitName, CircuitDTO circuitDTO) throws Exception {
-		Circuit circuit = CircuitRepository.getCircuit(circuitName);
+	public void updateCircuit(CircuitDTO circuitDTO, List<RocketDTO> rocketsListDTO) throws Exception {
+		Circuit circuit = new Circuit(circuitDTO);
+		List<Rocket> rocketsList = convertRocketsListDTOToRocketsList(rocketsListDTO);
 		Rocket winner;
 		while (circuit.timeLeft()) {
 			TimeUnit.SECONDS.sleep(1);
-			System.out.print(circuit.updateAllRockets());
-			winner = circuit.getWinner();
+			System.out.print(circuit.updateAllRockets(rocketsList));
+			winner = circuit.getWinner(rocketsList);
 			if (winner instanceof Rocket) {
 				System.out.println(winnerMessage(winner, circuit));
 				return;
@@ -30,6 +43,22 @@ public class RaceController {
 		}
 		System.out.println("There is no winner.");
 	}
+	
+	public static List<Rocket> convertRocketsListDTOToRocketsList (List<RocketDTO> rocketsListDTO) {
+		List<Rocket> rocketsList = new ArrayList<Rocket>();
+		for(RocketDTO rocketDTO : rocketsListDTO) {
+			rocketsList.add(new Rocket(rocketDTO));
+		}
+		return rocketsList;
+	}
+	
+	public static List<RocketDTO> convertRocketsListToRocketsListDTO (List<Rocket> rocketsList) {
+		List<RocketDTO> rocketsListDTO = new ArrayList<RocketDTO>();
+		for(Rocket rocket : rocketsList) {
+			rocketsListDTO.add(new RocketDTO(rocket));
+		}
+		return rocketsListDTO;
+	}
 
 	public static String winnerMessage(Rocket winner, Circuit circuit) {
 		String msg = "";
@@ -37,5 +66,9 @@ public class RaceController {
 				+ "Ha ganao pisha! En el segundo: " + circuit.getCurrentTime() + " segundo/s.";
 		return msg;
 	}
+
+	
+
+	
 
 }

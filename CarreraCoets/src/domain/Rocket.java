@@ -3,6 +3,9 @@ package domain;
 import java.util.LinkedList;
 import java.util.List;
 
+import application.dto.RocketDTO;
+import utilities.InvalidParamException;
+
 public class Rocket {
 
 	private String name;
@@ -11,15 +14,19 @@ public class Rocket {
 	private float currentVelocity = 0.0f;
 	private float currentMeters = 0.0f;
  
-	public Rocket(String name, Deposit deposit) throws Exception {
+	public Rocket(String name, Deposit deposit) throws InvalidParamException {
 		if(name.equals(null) || name.equals("")) {
-			throw new Exception("Name can't be null/empty.");
+			throw new InvalidParamException();
 		}
 		if(deposit.equals(null)) {
-			throw new Exception("Deposit can't be null.");
+			throw new InvalidParamException();
 		}
 		this.name = name;
 		this.deposit = deposit;
+	}
+
+	public Rocket(RocketDTO rocketDTO) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {

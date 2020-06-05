@@ -1,17 +1,19 @@
 package domain;
 
+import utilities.InvalidParamException;
+
 public class Strategy {
 
 	private static Strategy instance;
 
-	public static Strategy getInstance() throws Exception {
+	public static Strategy getInstance() {
 		if (instance == null) {
 			instance = new Strategy();
 		}
 		return instance;
 	}
 	
-	public float move(float currentTime) throws Exception {
+	public float move(float currentTime) throws InvalidParamException{
 		switch((int) currentTime) {
 		case 0:
 			return 0;
@@ -52,7 +54,7 @@ public class Strategy {
 		case 18:
 			return 0;
 		default:
-			throw new Exception("Error: no time left.");		
+			throw new InvalidParamException();		
 		
 		}
 	}
