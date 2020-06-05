@@ -4,12 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import application.RaceController;
 import domain.Circuit;
 import domain.Propellant;
 import domain.Deposit;
 import domain.Rocket;
 
 public class Main {
+	
+	private static RaceController controller = new RaceController();
 
 	public static void main(String[] args) {
 

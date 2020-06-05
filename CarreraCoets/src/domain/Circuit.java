@@ -1,24 +1,52 @@
 package domain;
 
-import java.util.LinkedList;
 import java.util.List;
+
+import application.dto.CircuitDTO;
+import utilities.InvalidParamException;
 
 public class Circuit {
 
+	private String name;
 	private float circuitLength;
 	private float maximumTime;
-	private float currentTime = 0;
-	private List<Rocket> rocketsList = new LinkedList<Rocket>();
+	private float currentTime;
+	private List<Rocket> rocketsList;
+	
+	public Circuit() {
+		
+	}
 
-	public Circuit(float circuitLength, float maximumTime) throws Exception {
-		if (circuitLength <= 0) {
-			throw new Exception("The Circuit Length can't be less or equal than 0.");
+	public Circuit(String name, float circuitLength, float maximumTime, List<Rocket> rocketsList) throws InvalidParamException {
+		if (name == null || name.equals("")) {
+			throw new InvalidParamException();
 		}
-		if (maximumTime <= 0) {
-			throw new Exception("The Maximum Time can't be less or equal than 0.");
+		if (circuitLength <= 0.0f) {
+			throw new InvalidParamException();
 		}
+		if (maximumTime <= 0.0f) {
+			throw new InvalidParamException();
+		}
+		this.name = name;
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
+		this.currentTime = 0;
+		this.rocketsList.addAll(rocketsList);
+	}
+	
+	public Circuit(CircuitDTO circuitDTO) throws InvalidParamException {
+		if (circuitDTO == null) {
+			throw new InvalidParamException();
+		}
+		this.name = circuitDTO.getName();
+		this.circuitLength = circuitDTO.getCircuitLength();
+		this.maximumTime = circuitDTO.getMaximumTime();
+		this.currentTime = 0;
+		this.rocketsList.addAll(circuitDTO.getRocketsList());
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public float getCircuitLength() {
@@ -108,5 +136,7 @@ public class Circuit {
 	public boolean isDepositEmpty(Rocket currentRocket) {
 		return currentRocket.isDepositEmpty();
 	}
+
+	
 
 }
