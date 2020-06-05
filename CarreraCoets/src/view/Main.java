@@ -1,7 +1,8 @@
-package application;
+package view;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import domain.Circuit;
 import domain.Propellant;
@@ -45,6 +46,7 @@ public class Main {
 	public static void updateCircuit(Circuit circuit) throws Exception {
 		Rocket winner;
 		while (circuit.timeLeft()) {
+			TimeUnit.SECONDS.sleep(1);
 			System.out.print(circuit.updateAllRockets());
 			winner = circuit.getWinner();
 			if (winner instanceof Rocket) {
