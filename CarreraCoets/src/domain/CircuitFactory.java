@@ -6,9 +6,22 @@ import utilities.InvalidParamException;
 
 public class CircuitFactory {
 
-	public static Circuit createCircuit() throws InvalidParamException {
-		int randomNum = ThreadLocalRandom.current().nextInt(0,4);
-		switch(randomNum) {
+	private static CircuitFactory instance;
+
+	private CircuitFactory() {
+
+	}
+
+	public synchronized static CircuitFactory getInstance() {
+		if (instance == null) {
+			instance = new CircuitFactory();
+		}
+		return instance;
+	}
+
+	public Circuit createCircuit() throws InvalidParamException {
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+		switch (randomNum) {
 		case 0:
 			return new Circuit("MadMax", 1300.0f, 22.0f);
 		case 1:

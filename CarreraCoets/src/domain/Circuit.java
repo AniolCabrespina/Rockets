@@ -66,7 +66,7 @@ public class Circuit {
 		String circuitInfo = "";
 		for (Rocket currentRocket : rocketsList) {
 			float acceleration = Strategy.getInstance().move(getCurrentTime());
-			circuitInfo = updateRocket(acceleration, currentRocket) + "\n";
+			circuitInfo += updateRocket(acceleration, currentRocket) + "\n";
 		}
 		return circuitInfo;
 	}

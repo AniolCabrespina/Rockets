@@ -5,8 +5,12 @@ import utilities.InvalidParamException;
 public class Strategy {
 
 	private static Strategy instance;
+	
+	private Strategy() {
+		
+	}
 
-	public static Strategy getInstance() {
+	public synchronized static Strategy getInstance() {
 		if (instance == null) {
 			instance = new Strategy();
 		}
@@ -53,6 +57,14 @@ public class Strategy {
 			return 0;
 		case 18:
 			return 0;
+		case 19:
+			return 0;
+		case 20:
+			return 0;
+		case 21:
+			return 0;
+		case 22:
+			return 100000;
 		default:
 			throw new InvalidParamException();		
 		

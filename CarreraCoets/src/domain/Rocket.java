@@ -9,12 +9,17 @@ import utilities.InvalidParamException;
 public class Rocket {
 
 	private String name;
-	private List<Propellant> propellants = new LinkedList<Propellant>();
+	private float currentVelocity;
+	private float currentMeters;
 	private Deposit deposit;
-	private float currentVelocity = 0.0f;
-	private float currentMeters = 0.0f;
+	private List<Propellant> propellants;
+	
+	
+	public Rocket() {
+		
+	}
  
-	public Rocket(String name, Deposit deposit) throws InvalidParamException {
+	public Rocket(String name, Deposit deposit, List<Propellant> propellants) throws InvalidParamException {
 		if(name.equals(null) || name.equals("")) {
 			throw new InvalidParamException();
 		}
@@ -22,11 +27,25 @@ public class Rocket {
 			throw new InvalidParamException();
 		}
 		this.name = name;
-		this.deposit = deposit;
+		this.currentVelocity = 0.0f;
+		this.currentMeters = 0.0f;
+		this.deposit = deposit;		
+		this.propellants = new LinkedList<Propellant>();
+		this.propellants.addAll(propellants);
 	}
 
-	public Rocket(RocketDTO rocketDTO) {
-		// TODO Auto-generated constructor stub
+	public Rocket(RocketDTO rocketDTO) throws InvalidParamException {
+		if(rocketDTO == null) {
+			throw new InvalidParamException();
+		}
+		this.name = rocketDTO.getName();
+		this.currentVelocity = 0.0f;
+		this.currentMeters = 0.0f;
+		this.deposit = new Deposit(rocketDTO.getDepositTotalFuel());		
+		this.propellants = new LinkedList<Propellant>();
+		for(float maximumAcceleration : rocketDTO.getPropellantsMaximumAcceleration()) {
+			this.propellants.add(new Propellant(maximumAcceleration));
+		}
 	}
 
 	public String getName() {
@@ -72,14 +91,12 @@ public class Rocket {
 		deposit.updateDeposit(currentVelocity);
 	}
 	
-	public void addRocketPropellants(List<Propellant> propellants) {
-		for (Propellant propellant: propellants) {
-			this.propellants.add(propellant);
-		}
-	}
-	
 	public boolean isDepositEmpty() {
 		return deposit.isEmpty();
+	}
+
+	public List<Propellant> getPropellants() {
+		return this.propellants;
 	}
 
 }

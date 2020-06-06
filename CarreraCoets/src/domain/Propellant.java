@@ -5,13 +5,14 @@ import utilities.InvalidParamException;
 public class Propellant {
 
 	private float maximumAcceleration;
-	private float currentAcceleration = 0.0f;
+	private float currentAcceleration;
 
 	public Propellant(float maximumAcceleration) throws InvalidParamException{
 		if (maximumAcceleration <= 0) {
 			throw new InvalidParamException();
 		}
 		this.maximumAcceleration = maximumAcceleration;
+		this.currentAcceleration = 0.0f;
 	}
 
 	public float getMaximumAcceleration() {
