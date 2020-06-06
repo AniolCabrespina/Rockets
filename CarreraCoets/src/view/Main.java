@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import application.RaceController;
 import application.dto.CircuitDTO;
@@ -14,9 +15,9 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
-			List<RocketDTO> rocketsList = createRockets();
-			CircuitDTO circuit = createCircuit();
-			startRace(circuit, rocketsList);
+			List<RocketDTO> rocketsListDTO = createRockets();
+			CircuitDTO circuitDTO = createCircuit();
+			startRace(circuitDTO);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -31,9 +32,19 @@ public class Main {
 		return controller.createCircuit();
 	}
 
-	public static void startRace(CircuitDTO circuitDTO, List<RocketDTO> rocketsListDTO) throws Exception{
+	public static void startRace(CircuitDTO circuitDTO) throws Exception{
 		System.out.println("Starting competition. Circuit length: " + circuitDTO.getCircuitLength() + " Max time: "
 				+ circuitDTO.getMaximumTime());
-		controller.updateCircuit(circuitDTO, rocketsListDTO);
+		
+		for (int currentTime = 0; currentTime <= circuitDTO.getMaximumTime(); currentTime++) {
+			TimeUnit.SECONDS.sleep(1);
+			System.out.print(controller.updateCircuit(circuitDTO, currentTime));
+			if(controller.getHasEnded()) {
+				return;
+			}
+		}
+		System.out.println("There is no winner.");		
 	}
+	
+	
 }

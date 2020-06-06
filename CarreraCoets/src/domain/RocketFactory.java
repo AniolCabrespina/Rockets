@@ -6,7 +6,7 @@ import java.util.List;
 import utilities.InvalidParamException;
 
 public class RocketFactory {
-	
+
 	private static RocketFactory instance;
 
 	private RocketFactory() {
@@ -29,7 +29,7 @@ public class RocketFactory {
 		return rocketsList;
 	}
 
-	public Rocket createViperX() throws InvalidParamException{
+	public Rocket createViperX() throws InvalidParamException {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(40.0f));
 		rocketPropellants.add(new Propellant(50.0f));
@@ -41,7 +41,7 @@ public class RocketFactory {
 
 		return rocket;
 	}
-	
+
 	public Rocket createStarV() throws InvalidParamException {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(30.0f));
@@ -50,11 +50,11 @@ public class RocketFactory {
 		rocketPropellants.add(new Propellant(38.0f));
 
 		Deposit fuelTank = new Deposit(2800.0f);
-		Rocket rocket = new Rocket("StarV", fuelTank,rocketPropellants);
+		Rocket rocket = new Rocket("StarV", fuelTank, rocketPropellants);
 
 		return rocket;
 	}
-	
+
 	public Rocket createFalconIX() throws InvalidParamException {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(40.0f));
@@ -66,8 +66,9 @@ public class RocketFactory {
 
 		return rocket;
 	}
-	//S'HA DE PREGUNTAR DIPÒSIT D'AQUEST COET
-	public Rocket createSpeedyV() throws InvalidParamException { 
+
+	// S'HA DE PREGUNTAR DIPÒSIT D'AQUEST COET
+	public Rocket createSpeedyV() throws InvalidParamException {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(10.0f));
 		rocketPropellants.add(new Propellant(3.0f));
@@ -76,8 +77,8 @@ public class RocketFactory {
 
 		Deposit fuelTank = new Deposit(1900.0f);
 		Rocket rocket = new Rocket("SpeedyV", fuelTank, rocketPropellants);
-		
+
 		return rocket;
 	}
-	
+
 }

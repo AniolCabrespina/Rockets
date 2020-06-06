@@ -13,37 +13,36 @@ public class Rocket {
 	private float currentMeters;
 	private Deposit deposit;
 	private List<Propellant> propellants;
-	
-	
+
 	public Rocket() {
-		
+
 	}
- 
+
 	public Rocket(String name, Deposit deposit, List<Propellant> propellants) throws InvalidParamException {
-		if(name.equals(null) || name.equals("")) {
+		if (name.equals(null) || name.equals("")) {
 			throw new InvalidParamException();
 		}
-		if(deposit.equals(null)) {
+		if (deposit.equals(null)) {
 			throw new InvalidParamException();
 		}
 		this.name = name;
 		this.currentVelocity = 0.0f;
 		this.currentMeters = 0.0f;
-		this.deposit = deposit;		
+		this.deposit = deposit;
 		this.propellants = new LinkedList<Propellant>();
 		this.propellants.addAll(propellants);
 	}
 
 	public Rocket(RocketDTO rocketDTO) throws InvalidParamException {
-		if(rocketDTO == null) {
+		if (rocketDTO == null) {
 			throw new InvalidParamException();
 		}
 		this.name = rocketDTO.getName();
 		this.currentVelocity = 0.0f;
 		this.currentMeters = 0.0f;
-		this.deposit = new Deposit(rocketDTO.getDepositTotalFuel());		
+		this.deposit = new Deposit(rocketDTO.getDepositTotalFuel());
 		this.propellants = new LinkedList<Propellant>();
-		for(float maximumAcceleration : rocketDTO.getPropellantsMaximumAcceleration()) {
+		for (float maximumAcceleration : rocketDTO.getPropellantsMaximumAcceleration()) {
 			this.propellants.add(new Propellant(maximumAcceleration));
 		}
 	}
@@ -66,14 +65,14 @@ public class Rocket {
 
 	public float calculateRocketAcceleration() {
 		float newAcceleration = 0.0f;
-		for (Propellant propellant: propellants) {
+		for (Propellant propellant : propellants) {
 			newAcceleration += propellant.getCurrentAcceleration();
 		}
 		return newAcceleration;
 	}
-	
+
 	public void updatePropellantsAcceleration(float newAcceleration) {
-		for (Propellant propellant: propellants) {
+		for (Propellant propellant : propellants) {
 			propellant.setCurrentAcceleration(newAcceleration);
 		}
 	}
@@ -86,17 +85,24 @@ public class Rocket {
 		this.currentMeters = (float) (this.currentMeters + (this.currentVelocity * 1)
 				+ ((calculateRocketAcceleration() / 2) * Math.pow(1, 2)));
 	}
-	
+
 	public void updateDeposit(float currentVelocity) throws Exception {
 		deposit.updateDeposit(currentVelocity);
 	}
-	
+
 	public boolean isDepositEmpty() {
 		return deposit.isEmpty();
 	}
 
 	public List<Propellant> getPropellants() {
 		return this.propellants;
+	}
+	
+	public String winnerMessage(float currentTime) {
+		String msg = "";
+		msg = "And the winner is: " + this.name + " with a time of " + currentTime + "\n"
+				+ "Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.";
+		return msg;
 	}
 
 }

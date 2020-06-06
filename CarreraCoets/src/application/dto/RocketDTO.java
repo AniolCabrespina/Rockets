@@ -8,7 +8,7 @@ import domain.Rocket;
 import utilities.InvalidParamException;
 
 public class RocketDTO {
-	
+
 	private String name;
 	private float currentVelocity;
 	private float currentMeters;
@@ -16,17 +16,18 @@ public class RocketDTO {
 	private List<Float> propellantsMaximumAcceleration;
 
 	public RocketDTO() {
-		
+
 	}
-	
-	public RocketDTO (String name, float currentVelocity, float currentMeters, float depositTotalFuel, List<Float> ropellantsMaximumAcceleration) throws InvalidParamException{
+
+	public RocketDTO(String name, float currentVelocity, float currentMeters, float depositTotalFuel,
+			List<Float> ropellantsMaximumAcceleration) throws InvalidParamException {
 		this.name = name;
 		this.currentVelocity = currentVelocity;
 		this.currentMeters = currentMeters;
 		this.depositTotalFuel = depositTotalFuel;
 		this.propellantsMaximumAcceleration.addAll(ropellantsMaximumAcceleration);
 	}
-	
+
 	public RocketDTO(Rocket rocket) throws InvalidParamException {
 		if (rocket == null) {
 			throw new InvalidParamException();
@@ -34,9 +35,9 @@ public class RocketDTO {
 		this.name = rocket.getName();
 		this.currentVelocity = 0.0f;
 		this.currentMeters = 0.0f;
-		this.depositTotalFuel = rocket.getDeposit().getTotalFuel();		
+		this.depositTotalFuel = rocket.getDeposit().getTotalFuel();
 		this.propellantsMaximumAcceleration = new LinkedList<Float>();
-		for(Propellant propellant : rocket.getPropellants()) {
+		for (Propellant propellant : rocket.getPropellants()) {
 			this.propellantsMaximumAcceleration.add(propellant.getMaximumAcceleration());
 		}
 	}
@@ -75,7 +76,5 @@ public class RocketDTO {
 		}
 		return propellantsMaximumAcceleration;
 	}
-
-
 
 }

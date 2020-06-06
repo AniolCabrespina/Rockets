@@ -10,10 +10,9 @@ public class Circuit {
 	private String name;
 	private float circuitLength;
 	private float maximumTime;
-	private float currentTime;
-	
+
 	public Circuit() {
-		
+
 	}
 
 	public Circuit(String name, float circuitLength, float maximumTime) throws InvalidParamException {
@@ -29,9 +28,8 @@ public class Circuit {
 		this.name = name;
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
-		this.currentTime = 0;
 	}
-	
+
 	public Circuit(CircuitDTO circuitDTO) throws InvalidParamException {
 		if (circuitDTO == null) {
 			throw new InvalidParamException();
@@ -39,9 +37,8 @@ public class Circuit {
 		this.name = circuitDTO.getName();
 		this.circuitLength = circuitDTO.getCircuitLength();
 		this.maximumTime = circuitDTO.getMaximumTime();
-		this.currentTime = 0;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -54,18 +51,10 @@ public class Circuit {
 		return maximumTime;
 	}
 
-	public float getCurrentTime() {
-		return currentTime;
-	}
-
-	public void setCurrentTime(float currentTime) {
-		this.currentTime = currentTime;
-	}
-
-	public String updateAllRockets(List<Rocket> rocketsList) throws InvalidParamException {
+	public String updateAllRockets(List<Rocket> rocketsList, float currentTime) throws InvalidParamException {
 		String circuitInfo = "";
 		for (Rocket currentRocket : rocketsList) {
-			float acceleration = Strategy.getInstance().move(getCurrentTime());
+			float acceleration = Strategy.getInstance().move(currentTime);
 			circuitInfo += updateRocket(acceleration, currentRocket) + "\n";
 		}
 		return circuitInfo;
@@ -87,22 +76,23 @@ public class Circuit {
 	}
 
 	public String toString(float acceleration, Rocket currentRocket) {
-		return "Current Time: " + currentTime + " Acceleration: " + acceleration + " Speed: "
-				+ currentRocket.getVelocity() + " Distance: " + currentRocket.getMeters() + " Circuit: " + circuitLength
+		return "\t Rocket: " + currentRocket.getName() + " Acceleration: " + acceleration + " Speed: "
+				+ currentRocket.getVelocity() + " Distance: " + currentRocket.getMeters() + "/" + circuitLength
 				+ " Fuel: " + currentRocket.getDeposit().getCurrentFuel() + " / "
 				+ currentRocket.getDeposit().getTotalFuel();
 	}
 
 	public String toStringDepositEmpty(float acceleration, Rocket currentRocket) {
-		return "Current Time: " + currentTime + " Acceleration: " + acceleration + " Speed: 0.0 Distance: "
+		return "\t Rocket: " + currentRocket.getName() + " Acceleration: " + acceleration + " Speed: 0.0 Distance: "
 				+ currentRocket.getMeters() + " Circuit: " + circuitLength + " Fuel: "
 				+ currentRocket.getDeposit().getCurrentFuel() + " / " + currentRocket.getDeposit().getTotalFuel();
 	}
 
 	/**
-	 * This function searches for a rocket that has win the race, that means that has arrived to the goal
-	 * If no rocket is found, cause no rocket has won
-	 * It will return a null
+	 * This function searches for a rocket that has win the race, that means that
+	 * has arrived to the goal If no rocket is found, cause no rocket has won It
+	 * will return a null
+	 * 
 	 * @return
 	 */
 	public Rocket getWinner(List<Rocket> rocketsList) {
@@ -113,19 +103,9 @@ public class Circuit {
 		}
 		return null;
 	}
-	
-	public boolean timeLeft() {
-		return currentTime <= maximumTime;
-	}
-	
-	public void updateTime() {
-		currentTime++;
-	}
 
 	public boolean isDepositEmpty(Rocket currentRocket) {
 		return currentRocket.isDepositEmpty();
 	}
-
-	
 
 }
