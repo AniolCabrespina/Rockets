@@ -8,6 +8,8 @@ public class CircuitDTO {
 	private String name;
 	private float circuitLength;
 	private float maximumTime;
+	private float currentTime;
+	private boolean hasWinner;
 
 	public CircuitDTO() {
 
@@ -17,7 +19,11 @@ public class CircuitDTO {
 		this.name = name;
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
+		this.currentTime = 0.0f;
+		this.hasWinner = false;
 	}
+
+	
 
 	public CircuitDTO(Circuit circuit) throws InvalidParamException {
 		if (circuit == null) {
@@ -26,6 +32,8 @@ public class CircuitDTO {
 		this.name = circuit.getName();
 		this.circuitLength = circuit.getCircuitLength();
 		this.maximumTime = circuit.getMaximumTime();
+		this.currentTime = 0.0f;
+		this.hasWinner = false;
 	}
 
 	public float getCircuitLength() throws InvalidParamException {
@@ -47,6 +55,17 @@ public class CircuitDTO {
 			throw new InvalidParamException();
 		}
 		return name;
+	}
+	
+	public float getCurrentTime() throws InvalidParamException {
+		if (currentTime < 0.0f) {
+			throw new InvalidParamException();
+		}
+		return currentTime;
+	}
+
+	public boolean isHasWinner() {
+		return hasWinner;
 	}
 
 }

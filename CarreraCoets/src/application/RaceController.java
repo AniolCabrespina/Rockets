@@ -6,14 +6,25 @@ import java.util.List;
 import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
 import domain.Circuit;
-import domain.CircuitFactory;
 import domain.Rocket;
-import domain.RocketFactory;
 import utilities.InvalidParamException;
+import view.Observer;
 
 public class RaceController {
 
 	private static Circuit circuit;
+	private static RaceController instance;
+	
+	public static synchronized RaceController getInstance() {
+		if(instance == null) {
+			return new RaceController();
+		}
+		return instance;
+	}
+	
+	private RaceController() {
+		
+	}
 
 	public List<RocketDTO> createRockets() throws InvalidParamException {
 		List<Rocket> rocketsList = new ArrayList<Rocket>();
@@ -22,25 +33,27 @@ public class RaceController {
 		return rocketsListDTO;
 	}
 
-	public CircuitDTO createCircuit() throws InvalidParamException {
+	public CircuitDTO createCircuit(Observer observer) throws InvalidParamException {
 		circuit = CircuitFactory.getInstance().createCircuit();
+		circuit.addObserver(observer);
 		return new CircuitDTO(circuit);
+	}	
+	
+	public void startRace() throws Exception {
+		circuit.startRace();
 	}
 
-	public String updateCircuit(CircuitDTO circuitDTO, float currentTime) throws Exception {
-		hasEnded = false;
-		Circuit circuit = new Circuit(circuitDTO);
+	public String updateRace() throws Exception {
 		Rocket winner;
-		String response;
-		response = "Current Time: " + currentTime + "\n";
-		response += circuit.updateAllRockets(rocketsList, currentTime);
-		winner = circuit.getWinner(rocketsList);
-		if (winner instanceof Rocket) {
-			this.hasEnded = true;
-			response += winner.winnerMessage(currentTime);
-			return response;
+		String circuitFeedback;
+		circuitFeedback = "Current Time: " + circuit.getCurrentTime() + "\n";
+		circuitFeedback += circuit.updateAllRockets();
+		winner = circuit.getWinner();
+		if (circuit.getHasWinner()) {
+			circuitFeedback += winner.winnerMessage(circuit.getCurrentTime());
+			return circuitFeedback;
 		}
-		return response;
+		return circuitFeedback;
 	}
 
 	public static List<RocketDTO> convertRocketsListToRocketsListDTO(List<Rocket> rocketsList)
@@ -50,6 +63,19 @@ public class RaceController {
 			rocketsListDTO.add(new RocketDTO(rocket));
 		}
 		return rocketsListDTO;
+	}
+	
+	public static List<Rocket> convertRocketsListDTOToRocketsList(List<RocketDTO> rocketsListDTO) 
+			throws InvalidParamException {
+		List<Rocket> rocketsList = new ArrayList<Rocket>();
+		for (RocketDTO rocket : rocketsListDTO) {
+			rocketsList.add(new Rocket(rocket));
+		}
+		return rocketsList;
+	}
+
+	public void addRockets(List<RocketDTO> rocketsListDTO) throws InvalidParamException {
+		circuit.addRockets(convertRocketsListDTOToRocketsList(rocketsListDTO));	
 	}
 
 }

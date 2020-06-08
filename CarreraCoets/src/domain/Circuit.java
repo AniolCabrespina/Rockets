@@ -1,19 +1,23 @@
 package domain;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import application.dto.CircuitDTO;
+import utilities.IObserver;
+import utilities.ISubject;
 import utilities.InvalidParamException;
 
-public class Circuit {
+public class Circuit implements ISubject{
 
 	private String name;
 	private float circuitLength;
 	private float maximumTime;
 	private float currentTime;
-	private boolean hasEnded;
-	private List<Rocket> rocketsList;
+	private List<Rocket> rocketsList = new LinkedList<Rocket>();
+	private List<IObserver> observers = new LinkedList<IObserver>();
+	private boolean hasWinner;
 
 	public Circuit() {
 
@@ -33,6 +37,7 @@ public class Circuit {
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
 		this.currentTime = 0.0f;
+		this.hasWinner = false;
 	}
 
 	public Circuit(CircuitDTO circuitDTO) throws InvalidParamException {
@@ -43,6 +48,7 @@ public class Circuit {
 		this.circuitLength = circuitDTO.getCircuitLength();
 		this.maximumTime = circuitDTO.getMaximumTime();
 		this.currentTime = 0.0f;
+		this.hasWinner = false;
 	}
 
 	public String getName() {
@@ -55,6 +61,18 @@ public class Circuit {
 
 	public float getMaximumTime() {
 		return maximumTime;
+	}
+
+	public float getCurrentTime() {
+		return currentTime;
+	}
+
+	public boolean getHasWinner() {
+		return hasWinner;
+	}
+
+	public List<Rocket> getRocketsList() {
+		return rocketsList;
 	}
 
 	public String updateAllRockets() throws InvalidParamException {
@@ -76,6 +94,7 @@ public class Circuit {
 	public Rocket getWinner() {
 		for (Rocket currentRocket : rocketsList) {
 			if (currentRocket.getMeters() >= circuitLength) {
+				hasWinner = true;
 				return currentRocket;
 			}
 		}
@@ -86,17 +105,38 @@ public class Circuit {
 		return currentRocket.isDepositEmpty();
 	}
 	
-	public String updateCricuit() {
-		for (int currentTime = 0; currentTime <= circuitDTO.getMaximumTime(); currentTime++) {
-			TimeUnit.SECONDS.sleep(1);
-			System.out.print(controller.updateCircuit(circuitDTO, currentTime));
-			if(controller.getHasEnded()) {
-				return null;
-			}
+	
+	
+	public void addObserver(IObserver o) {
+		observers.add(o);
+	}
+	
+	public void removeObserver(IObserver o) {
+		observers.remove(o);
+	}
+	
+	public void notifyAllObservers() throws Exception {
+		for(IObserver o : observers) {
+			o.updateCircuit();
 		}
-		System.out.println("There is no winner.");	
+	}
+	
+	public void startRace() throws Exception {
+		while (currentTime <= maximumTime) {
+			TimeUnit.SECONDS.sleep(1);
+			notifyAllObservers();
+			currentTime++;
+		}
+		if(!hasWinner) {
+			notifyAllObservers();
+			System.out.println("There is no winner.");	
+		}
+	}
+
+	public void addRockets(List<Rocket> rocketsList) {
+		this.rocketsList = rocketsList;
+		
 	}
 	
 	
-
 }
