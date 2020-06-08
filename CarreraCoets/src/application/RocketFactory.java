@@ -78,7 +78,7 @@ public class RocketFactory {
 		rocketPropellants.add(new Propellant(20.0f));
 		rocketPropellants.add(new Propellant(82.0f));
 
-		Deposit fuelTank = new Deposit(3200.0f);
+		Deposit fuelTank = new Deposit(32.0f);
 		Rocket rocket = new Rocket("SpeedyV", fuelTank, rocketPropellants);
 
 		return rocket;

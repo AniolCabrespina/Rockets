@@ -79,7 +79,7 @@ public class Circuit implements ISubject{
 		String circuitInfo = "";
 		for (Rocket currentRocket : rocketsList) {
 			float acceleration = Strategy.getInstance().move(currentTime);
-			circuitInfo += currentRocket.updateRocket(acceleration, currentTime) + "\n";
+			circuitInfo += currentRocket.updateRocket(acceleration,circuitLength) + "\n";
 		}
 		return circuitInfo;
 	}
@@ -103,9 +103,7 @@ public class Circuit implements ISubject{
 
 	public boolean isDepositEmpty(Rocket currentRocket) {
 		return currentRocket.isDepositEmpty();
-	}
-	
-	
+	}	
 	
 	public void addObserver(IObserver o) {
 		observers.add(o);
@@ -115,22 +113,27 @@ public class Circuit implements ISubject{
 		observers.remove(o);
 	}
 	
-	public void notifyAllObservers() throws Exception {
+	public void notifyAllObserversCircuitUpdate() throws Exception {
 		for(IObserver o : observers) {
 			o.updateCircuit();
 		}
 	}
 	
+	public void notifyAllObserversCircuitHasNoWinner() throws Exception {
+		for(IObserver o : observers) {
+			o.circuitHasNoWinner();
+		}
+	}
+	
 	public void startRace() throws Exception {
-		while (currentTime <= maximumTime) {
+		while (currentTime <= maximumTime && !hasWinner) {
 			TimeUnit.SECONDS.sleep(1);
-			notifyAllObservers();
+			notifyAllObserversCircuitUpdate();
 			currentTime++;
 		}
 		if(!hasWinner) {
-			notifyAllObservers();
-			System.out.println("There is no winner.");	
-		}
+			notifyAllObserversCircuitHasNoWinner();
+		}		
 	}
 
 	public void addRockets(List<Rocket> rocketsList) {

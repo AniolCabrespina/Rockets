@@ -122,14 +122,14 @@ public class Rocket {
 	
 	public String toString(float acceleration, float circuitLength) {
 		return "\t Rocket: " + name + " Acceleration: " + acceleration + " Speed: "
-				+ currentVelocity + " Distance: " + getMeters() + "/" + circuitLength
+				+ currentVelocity + " Distance: " + currentMeters + "/" + circuitLength
 				+ " Fuel: " + deposit.getCurrentFuel() + " / "
 				+ deposit.getTotalFuel();
 	}
 
 	public String toStringDepositEmpty(float acceleration, float circuitLength) {
 		return "\t Rocket: " + name + " Acceleration: " + acceleration + " Speed: 0.0 Distance: "
-				+ currentMeters + " Circuit: " + circuitLength + " Fuel: "
+				+ currentMeters + "/" + circuitLength + " Fuel: "
 				+ deposit.getCurrentFuel() + " / " + deposit.getTotalFuel();
 	}
 

@@ -7,4 +7,8 @@ public class Observer implements IObserver{
 	public void updateCircuit() throws Exception {
 		Main.updateRace();
 	}
+	
+	public void circuitHasNoWinner() {
+		Main.circuitHasNoWinner();		
+	}
 }

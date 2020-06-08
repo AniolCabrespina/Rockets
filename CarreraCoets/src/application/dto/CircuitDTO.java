@@ -32,8 +32,8 @@ public class CircuitDTO {
 		this.name = circuit.getName();
 		this.circuitLength = circuit.getCircuitLength();
 		this.maximumTime = circuit.getMaximumTime();
+		this.hasWinner = circuit.getHasWinner();
 		this.currentTime = 0.0f;
-		this.hasWinner = false;
 	}
 
 	public float getCircuitLength() throws InvalidParamException {

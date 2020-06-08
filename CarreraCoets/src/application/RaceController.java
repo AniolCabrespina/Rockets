@@ -7,23 +7,25 @@ import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
 import domain.Circuit;
 import domain.Rocket;
+import utilities.IObserver;
 import utilities.InvalidParamException;
+import view.Main;
 import view.Observer;
 
-public class RaceController {
+public class RaceController implements IObserver{
 
 	private static Circuit circuit;
 	private static RaceController instance;
-	
+
 	public static synchronized RaceController getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			return new RaceController();
 		}
 		return instance;
 	}
-	
+
 	private RaceController() {
-		
+
 	}
 
 	public List<RocketDTO> createRockets() throws InvalidParamException {
@@ -37,10 +39,18 @@ public class RaceController {
 		circuit = CircuitFactory.getInstance().createCircuit();
 		circuit.addObserver(observer);
 		return new CircuitDTO(circuit);
-	}	
-	
+	}
+
 	public void startRace() throws Exception {
 		circuit.startRace();
+	}
+	
+	public void updateCircuit() throws Exception {
+		Main.updateRace();
+	}
+	
+	public void circuitHasNoWinner() {
+		Main.circuitHasNoWinner();		
 	}
 
 	public String updateRace() throws Exception {
@@ -64,8 +74,8 @@ public class RaceController {
 		}
 		return rocketsListDTO;
 	}
-	
-	public static List<Rocket> convertRocketsListDTOToRocketsList(List<RocketDTO> rocketsListDTO) 
+
+	public static List<Rocket> convertRocketsListDTOToRocketsList(List<RocketDTO> rocketsListDTO)
 			throws InvalidParamException {
 		List<Rocket> rocketsList = new ArrayList<Rocket>();
 		for (RocketDTO rocket : rocketsListDTO) {
@@ -75,7 +85,7 @@ public class RaceController {
 	}
 
 	public void addRockets(List<RocketDTO> rocketsListDTO) throws InvalidParamException {
-		circuit.addRockets(convertRocketsListDTOToRocketsList(rocketsListDTO));	
+		circuit.addRockets(convertRocketsListDTOToRocketsList(rocketsListDTO));
 	}
 
 }

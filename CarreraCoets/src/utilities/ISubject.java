@@ -4,6 +4,8 @@ public interface ISubject {
 	
 	public void addObserver(IObserver observer) throws InvalidParamException;
 	
-	public void notifyAllObservers() throws Exception;
+	public void notifyAllObserversCircuitUpdate() throws Exception;
+	
+	public void notifyAllObserversCircuitHasNoWinner() throws Exception;
 
 }

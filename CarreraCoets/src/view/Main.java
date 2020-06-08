@@ -13,7 +13,6 @@ public class Main {
 	private static Observer observer = new Observer();
 
 	public static void main(String[] args) {
-
 		try {
 			List<RocketDTO> rocketsListDTO = new LinkedList<RocketDTO>();
 			rocketsListDTO = controller.createRockets();		
@@ -34,6 +33,10 @@ public class Main {
 	
 	public static void updateRace() throws Exception {
 		System.out.print(controller.updateRace());
+	}
+
+	public static void circuitHasNoWinner() {
+		System.out.print("There is no winner.");	
 	}
 	
 }
