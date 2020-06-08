@@ -10,13 +10,12 @@ import application.dto.RocketDTO;
 public class Main {
 
 	private static RaceController controller = RaceController.getInstance();
-	private static Observer observer = new Observer();
 
 	public static void main(String[] args) {
 		try {
 			List<RocketDTO> rocketsListDTO = new LinkedList<RocketDTO>();
 			rocketsListDTO = controller.createRockets();		
-			CircuitDTO circuitDTO = controller.createCircuit(observer);
+			CircuitDTO circuitDTO = controller.createCircuit();
 			controller.addRockets(rocketsListDTO);
 			startRace(circuitDTO);
 		} catch (Exception e) {

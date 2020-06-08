@@ -10,7 +10,6 @@ import domain.Rocket;
 import utilities.IObserver;
 import utilities.InvalidParamException;
 import view.Main;
-import view.Observer;
 
 public class RaceController implements IObserver{
 
@@ -35,9 +34,9 @@ public class RaceController implements IObserver{
 		return rocketsListDTO;
 	}
 
-	public CircuitDTO createCircuit(Observer observer) throws InvalidParamException {
+	public CircuitDTO createCircuit() throws InvalidParamException {
 		circuit = CircuitFactory.getInstance().createCircuit();
-		circuit.addObserver(observer);
+		circuit.addObserver(this);
 		return new CircuitDTO(circuit);
 	}
 
