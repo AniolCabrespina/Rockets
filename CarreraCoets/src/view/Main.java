@@ -36,14 +36,8 @@ public class Main {
 		System.out.println("Starting competition. Circuit length: " + circuitDTO.getCircuitLength() + " Max time: "
 				+ circuitDTO.getMaximumTime());
 		
-		for (int currentTime = 0; currentTime <= circuitDTO.getMaximumTime(); currentTime++) {
-			TimeUnit.SECONDS.sleep(1);
-			System.out.print(controller.updateCircuit(circuitDTO, currentTime));
-			if(controller.getHasEnded()) {
-				return;
-			}
-		}
-		System.out.println("There is no winner.");		
+		
+			
 	}
 	
 	

@@ -104,5 +104,33 @@ public class Rocket {
 				+ "Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.";
 		return msg;
 	}
+	
+	public String updateRocket(float acceleration, float circuitLength) {
+
+		updatePropellantsAcceleration(acceleration);
+		calculateRocketAcceleration();
+		updateVelocity();
+		try {
+			updateDeposit(currentVelocity);
+		} catch (Exception e) {
+			return toStringDepositEmpty(calculateRocketAcceleration(), circuitLength);
+		}
+		updateMeters();
+
+		return toString(calculateRocketAcceleration(), circuitLength);
+	}
+	
+	public String toString(float acceleration, float circuitLength) {
+		return "\t Rocket: " + name + " Acceleration: " + acceleration + " Speed: "
+				+ currentVelocity + " Distance: " + getMeters() + "/" + circuitLength
+				+ " Fuel: " + deposit.getCurrentFuel() + " / "
+				+ deposit.getTotalFuel();
+	}
+
+	public String toStringDepositEmpty(float acceleration, float circuitLength) {
+		return "\t Rocket: " + name + " Acceleration: " + acceleration + " Speed: 0.0 Distance: "
+				+ currentMeters + " Circuit: " + circuitLength + " Fuel: "
+				+ deposit.getCurrentFuel() + " / " + deposit.getTotalFuel();
+	}
 
 }

@@ -1,7 +1,8 @@
-package domain;
+package application;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import domain.Circuit;
 import utilities.InvalidParamException;
 
 public class CircuitFactory {

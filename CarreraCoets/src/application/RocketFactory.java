@@ -1,8 +1,11 @@
-package domain;
+package application;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import domain.Deposit;
+import domain.Propellant;
+import domain.Rocket;
 import utilities.InvalidParamException;
 
 public class RocketFactory {
@@ -67,7 +70,7 @@ public class RocketFactory {
 		return rocket;
 	}
 
-	// S'HA DE PREGUNTAR DIPÒSIT D'AQUEST COET
+	
 	public Rocket createSpeedyV() throws InvalidParamException {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(10.0f));
@@ -75,7 +78,7 @@ public class RocketFactory {
 		rocketPropellants.add(new Propellant(20.0f));
 		rocketPropellants.add(new Propellant(82.0f));
 
-		Deposit fuelTank = new Deposit(1900.0f);
+		Deposit fuelTank = new Deposit(3200.0f);
 		Rocket rocket = new Rocket("SpeedyV", fuelTank, rocketPropellants);
 
 		return rocket;

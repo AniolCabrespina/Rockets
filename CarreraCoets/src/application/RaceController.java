@@ -13,24 +13,22 @@ import utilities.InvalidParamException;
 
 public class RaceController {
 
-	List<Rocket> rocketsList;
-	Boolean hasEnded;
+	private static Circuit circuit;
 
 	public List<RocketDTO> createRockets() throws InvalidParamException {
 		List<Rocket> rocketsList = new ArrayList<Rocket>();
 		rocketsList.addAll(RocketFactory.getInstance().createRockets());
-		this.rocketsList = rocketsList;
 		List<RocketDTO> rocketsListDTO = convertRocketsListToRocketsListDTO(rocketsList);
 		return rocketsListDTO;
 	}
 
 	public CircuitDTO createCircuit() throws InvalidParamException {
-		Circuit circuit = CircuitFactory.getInstance().createCircuit();
+		circuit = CircuitFactory.getInstance().createCircuit();
 		return new CircuitDTO(circuit);
 	}
 
 	public String updateCircuit(CircuitDTO circuitDTO, float currentTime) throws Exception {
-		this.hasEnded = false;
+		hasEnded = false;
 		Circuit circuit = new Circuit(circuitDTO);
 		Rocket winner;
 		String response;
@@ -52,10 +50,6 @@ public class RaceController {
 			rocketsListDTO.add(new RocketDTO(rocket));
 		}
 		return rocketsListDTO;
-	}
-
-	public Boolean getHasEnded() {
-		return hasEnded;
 	}
 
 }
