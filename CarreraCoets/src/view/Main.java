@@ -35,9 +35,6 @@ public class Main {
 	public static void startRace(CircuitDTO circuitDTO) throws Exception{
 		System.out.println("Starting competition. Circuit length: " + circuitDTO.getCircuitLength() + " Max time: "
 				+ circuitDTO.getMaximumTime());
-		
-		
-			
 	}
 	
 	
