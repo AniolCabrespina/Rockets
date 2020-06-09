@@ -15,10 +15,10 @@ public class Circuit implements ISubject{
 	private float circuitLength;
 	private float maximumTime;
 	private float currentTime;
+	private boolean hasWinner;
 	private List<Rocket> rocketsList = new LinkedList<Rocket>();
 	private List<IObserver> observers = new LinkedList<IObserver>();
-	private boolean hasWinner;
-
+	
 	public Circuit() {
 
 	}
@@ -49,6 +49,8 @@ public class Circuit implements ISubject{
 		this.maximumTime = circuitDTO.getMaximumTime();
 		this.currentTime = 0.0f;
 		this.hasWinner = false;
+		this.rocketsList = circuitDTO.getRocketsList();
+		this.observers = circuitDTO.getObservers();
 	}
 
 	public String getName() {
@@ -73,6 +75,10 @@ public class Circuit implements ISubject{
 
 	public List<Rocket> getRocketsList() {
 		return rocketsList;
+	}
+
+	public List<IObserver> getObservers() {
+		return observers;
 	}
 
 	public String updateAllRockets() throws InvalidParamException {

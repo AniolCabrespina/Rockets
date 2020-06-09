@@ -7,11 +7,10 @@ import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
 import domain.Circuit;
 import domain.Rocket;
-import utilities.IObserver;
 import utilities.InvalidParamException;
 import view.Main;
 
-public class RaceController implements IObserver{
+public class RaceController{
 
 	private static Circuit circuit;
 	private static RaceController instance;
@@ -34,22 +33,14 @@ public class RaceController implements IObserver{
 		return rocketsListDTO;
 	}
 
-	public CircuitDTO createCircuit() throws InvalidParamException {
+	public CircuitDTO createCircuit(Main main) throws InvalidParamException {
 		circuit = CircuitFactory.getInstance().createCircuit();
-		circuit.addObserver(this);
+		circuit.addObserver(main);
 		return new CircuitDTO(circuit);
 	}
 
 	public void startRace() throws Exception {
 		circuit.startRace();
-	}
-	
-	public void updateCircuit() throws Exception {
-		Main.updateRace();
-	}
-	
-	public void circuitHasNoWinner() {
-		Main.circuitHasNoWinner();		
 	}
 
 	public String updateRace() throws Exception {

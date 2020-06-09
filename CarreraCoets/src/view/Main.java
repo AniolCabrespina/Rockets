@@ -6,8 +6,9 @@ import java.util.List;
 import application.RaceController;
 import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
+import utilities.IObserver;
 
-public class Main {
+public class Main implements IObserver{
 
 	private static RaceController controller = RaceController.getInstance();
 
@@ -15,7 +16,7 @@ public class Main {
 		try {
 			List<RocketDTO> rocketsListDTO = new LinkedList<RocketDTO>();
 			rocketsListDTO = controller.createRockets();		
-			CircuitDTO circuitDTO = controller.createCircuit();
+			CircuitDTO circuitDTO = controller.createCircuit(new Main());
 			controller.addRockets(rocketsListDTO);
 			startRace(circuitDTO);
 		} catch (Exception e) {
@@ -30,12 +31,13 @@ public class Main {
 		controller.startRace();
 	}
 	
-	public static void updateRace() throws Exception {
-		System.out.print(controller.updateRace());
+	public void updateCircuit() throws Exception {
+		System.out.print(controller.updateRace());		
 	}
-
-	public static void circuitHasNoWinner() {
-		System.out.print("There is no winner.");	
+	
+	public void circuitHasNoWinner() {
+		System.out.print("There is no winner.");
+		
 	}
 	
 }
