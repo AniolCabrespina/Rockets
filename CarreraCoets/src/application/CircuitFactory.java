@@ -1,10 +1,9 @@
 package application;
 
-import java.util.List;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 import domain.Circuit;
-import domain.Rocket;
 import utilities.InvalidParamException;
 
 public class CircuitFactory {
@@ -24,6 +23,7 @@ public class CircuitFactory {
 
 	public Circuit createCircuit() throws InvalidParamException {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+		randomNum = 1;
 		switch (randomNum) {
 		case 0:
 			return new Circuit("MadMax", 1300.0f, 22.0f);

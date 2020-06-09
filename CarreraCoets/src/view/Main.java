@@ -8,14 +8,14 @@ import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
 import utilities.IObserver;
 
-public class Main implements IObserver{
+public class Main implements IObserver {
 
 	private static RaceController controller = RaceController.getInstance();
 
 	public static void main(String[] args) {
 		try {
 			List<RocketDTO> rocketsListDTO = new LinkedList<RocketDTO>();
-			rocketsListDTO = controller.createRockets();		
+			rocketsListDTO = controller.createRockets();
 			CircuitDTO circuitDTO = controller.createCircuit(new Main());
 			controller.addRockets(rocketsListDTO);
 			startRace(circuitDTO);
@@ -24,20 +24,34 @@ public class Main implements IObserver{
 		}
 	}
 
-	public static void startRace(CircuitDTO circuitDTO) throws Exception{
+	public static void startRace(CircuitDTO circuitDTO) throws Exception {
 		System.out.println("Starting competition. Circuit length: " + circuitDTO.getCircuitLength() + " Max time: "
 				+ circuitDTO.getMaximumTime());
-		
+
 		controller.startRace();
 	}
-	
-	public void updateCircuit() throws Exception {
-		System.out.print(controller.updateRace());		
+
+	public void updateCircuit(CircuitDTO circuitDTO) {
+		try {
+			System.out.println("\n" + "Current Time: " + circuitDTO.getCurrentTime() + "\n");
+			for (RocketDTO rocketDTO : circuitDTO.getRocketsList()) {
+				System.out.println("\t Rocket: " + rocketDTO.getName() + " Acceleration: "
+						+ rocketDTO.getCurrentAcceleration() + " Speed: " + rocketDTO.getCurrentVelocity()
+						+ " Distance: " + rocketDTO.getCurrentMeters() + "/" + circuitDTO.getCircuitLength() + " Fuel: "
+						+ rocketDTO.getDepositCurrentFuel() + " / " + rocketDTO.getDepositTotalFuel());
+			}
+			if (circuitDTO.getHasWinner()) {
+				System.out.println("\n" + "And the winner is: " + circuitDTO.getWinner() + " with a time of "
+						+ circuitDTO.getCurrentTime() + "\n" + "Ha ganao pisha! En el segundo: "
+						+ circuitDTO.getCurrentTime() + " segundo/s.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void circuitHasNoWinner() {
-		System.out.print("There is no winner.");
-		
+		System.out.println("\n There is no winner.");
 	}
-	
+
 }

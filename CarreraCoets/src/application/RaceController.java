@@ -43,19 +43,6 @@ public class RaceController{
 		circuit.startRace();
 	}
 
-	public String updateRace() throws Exception {
-		Rocket winner;
-		String circuitFeedback;
-		circuitFeedback = "Current Time: " + circuit.getCurrentTime() + "\n";
-		circuitFeedback += circuit.updateAllRockets();
-		winner = circuit.getWinner();
-		if (circuit.getHasWinner()) {
-			circuitFeedback += winner.winnerMessage(circuit.getCurrentTime());
-			return circuitFeedback;
-		}
-		return circuitFeedback;
-	}
-
 	public static List<RocketDTO> convertRocketsListToRocketsListDTO(List<Rocket> rocketsList)
 			throws InvalidParamException {
 		List<RocketDTO> rocketsListDTO = new ArrayList<RocketDTO>();

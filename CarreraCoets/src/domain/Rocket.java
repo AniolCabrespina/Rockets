@@ -38,12 +38,12 @@ public class Rocket {
 			throw new InvalidParamException();
 		}
 		this.name = rocketDTO.getName();
-		this.currentVelocity = 0.0f;
-		this.currentMeters = 0.0f;
-		this.deposit = new Deposit(rocketDTO.getDepositTotalFuel());
+		this.currentVelocity = rocketDTO.getCurrentVelocity();
+		this.currentMeters = rocketDTO.getCurrentMeters();
+		this.deposit = new Deposit(rocketDTO.getDepositTotalFuel(), rocketDTO.getDepositCurrentFuel());
 		this.propellants = new LinkedList<Propellant>();
 		for (float maximumAcceleration : rocketDTO.getPropellantsMaximumAcceleration()) {
-			this.propellants.add(new Propellant(maximumAcceleration));
+			this.propellants.add(new Propellant(maximumAcceleration, rocketDTO.getCurrentAcceleration()));
 		}
 	}
 
@@ -51,17 +51,22 @@ public class Rocket {
 		return name;
 	}
 
-	public float getVelocity() {
-		return currentVelocity;
-	}
-
-	public float getMeters() {
-		return currentMeters;
-	}
-
 	public Deposit getDeposit() {
 		return deposit;
 	}
+
+	public float getCurrentVelocity() {
+		return currentVelocity;
+	}
+
+	public float getCurrentMeters() {
+		return currentMeters;
+	}
+	
+	public void setCurrentMeters(float currentMeters) {
+		this.currentMeters = currentMeters;
+	}
+	
 
 	public float calculateRocketAcceleration() {
 		float newAcceleration = 0.0f;
@@ -98,39 +103,18 @@ public class Rocket {
 		return this.propellants;
 	}
 	
-	public String winnerMessage(float currentTime) {
-		String msg = "";
-		msg = "And the winner is: " + this.name + " with a time of " + currentTime + "\n"
-				+ "Ha ganao pisha! En el segundo: " + currentTime + " segundo/s.";
-		return msg;
-	}
-	
-	public String updateRocket(float acceleration, float circuitLength) {
-
-		updatePropellantsAcceleration(acceleration);
-		calculateRocketAcceleration();
-		updateVelocity();
-		try {
+	public void updateRocket(float acceleration, float circuitLength) throws Exception {
+		if(deposit.getCurrentFuel() > 0.0f) {
+			updatePropellantsAcceleration(acceleration);
+			calculateRocketAcceleration();
+			updateVelocity();
 			updateDeposit(currentVelocity);
-		} catch (Exception e) {
-			return toStringDepositEmpty(calculateRocketAcceleration(), circuitLength);
-		}
-		updateMeters();
-
-		return toString(calculateRocketAcceleration(), circuitLength);
+			if (deposit.getCurrentFuel() > 0.0f) {
+				updateMeters();
+			}
+			else {
+				currentVelocity = 0.0f;
+			}
+		}		
 	}
-	
-	public String toString(float acceleration, float circuitLength) {
-		return "\t Rocket: " + name + " Acceleration: " + acceleration + " Speed: "
-				+ currentVelocity + " Distance: " + currentMeters + "/" + circuitLength
-				+ " Fuel: " + deposit.getCurrentFuel() + " / "
-				+ deposit.getTotalFuel();
-	}
-
-	public String toStringDepositEmpty(float acceleration, float circuitLength) {
-		return "\t Rocket: " + name + " Acceleration: " + acceleration + " Speed: 0.0 Distance: "
-				+ currentMeters + "/" + circuitLength + " Fuel: "
-				+ deposit.getCurrentFuel() + " / " + deposit.getTotalFuel();
-	}
-
 }

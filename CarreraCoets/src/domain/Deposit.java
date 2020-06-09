@@ -14,6 +14,14 @@ public class Deposit {
 		this.totalFuel = totalFuel;
 		this.currentFuel = this.totalFuel;
 	}
+	
+	public Deposit(float totalFuel, float currentFuel) throws InvalidParamException {
+		if (totalFuel <= 0) {
+			throw new InvalidParamException();
+		}
+		this.totalFuel = totalFuel;
+		this.currentFuel = currentFuel;
+	}
 
 	public float getTotalFuel() {
 		return totalFuel;
@@ -25,7 +33,7 @@ public class Deposit {
 
 	public void updateFuel(float consumption) throws InvalidParamException {
 		if ((currentFuel - consumption) < 0) {
-			throw new InvalidParamException();
+			currentFuel = 0;
 		}
 		else{
 			currentFuel -= consumption;

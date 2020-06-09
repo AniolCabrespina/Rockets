@@ -14,6 +14,14 @@ public class Propellant {
 		this.maximumAcceleration = maximumAcceleration;
 		this.currentAcceleration = 0.0f;
 	}
+	
+	public Propellant(float maximumAcceleration, float currentAcceleration) throws InvalidParamException{
+		if (maximumAcceleration <= 0) {
+			throw new InvalidParamException();
+		}
+		this.maximumAcceleration = maximumAcceleration;
+		this.currentAcceleration = currentAcceleration;
+	}
 
 	public float getMaximumAcceleration() {
 		return maximumAcceleration;

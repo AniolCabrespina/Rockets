@@ -5,20 +5,22 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import application.dto.CircuitDTO;
+import application.dto.RocketDTO;
 import utilities.IObserver;
 import utilities.ISubject;
 import utilities.InvalidParamException;
 
-public class Circuit implements ISubject{
+public class Circuit implements ISubject {
 
 	private String name;
 	private float circuitLength;
 	private float maximumTime;
 	private float currentTime;
 	private boolean hasWinner;
+	private String winner;
 	private List<Rocket> rocketsList = new LinkedList<Rocket>();
 	private List<IObserver> observers = new LinkedList<IObserver>();
-	
+
 	public Circuit() {
 
 	}
@@ -48,8 +50,11 @@ public class Circuit implements ISubject{
 		this.circuitLength = circuitDTO.getCircuitLength();
 		this.maximumTime = circuitDTO.getMaximumTime();
 		this.currentTime = 0.0f;
-		this.hasWinner = false;
-		this.rocketsList = circuitDTO.getRocketsList();
+		this.hasWinner = circuitDTO.getHasWinner();
+		this.winner = circuitDTO.getWinner();
+		for (RocketDTO rocketDTO : circuitDTO.getRocketsList()) {
+			rocketsList.add(new Rocket(rocketDTO));
+		}
 		this.observers = circuitDTO.getObservers();
 	}
 
@@ -81,71 +86,78 @@ public class Circuit implements ISubject{
 		return observers;
 	}
 
-	public String updateAllRockets() throws InvalidParamException {
-		String circuitInfo = "";
-		for (Rocket currentRocket : rocketsList) {
-			float acceleration = Strategy.getInstance().move(currentTime);
-			circuitInfo += currentRocket.updateRocket(acceleration,circuitLength) + "\n";
-		}
-		return circuitInfo;
+	public String getWinner() {
+		return winner;
 	}
 
-	/**
-	 * This function searches for a rocket that has win the race, that means that
-	 * has arrived to the goal If no rocket is found, cause no rocket has won It
-	 * will return a null
-	 * 
-	 * @return
-	 */
-	public Rocket getWinner() {
+	public void updateAllRockets() throws Exception {
 		for (Rocket currentRocket : rocketsList) {
-			if (currentRocket.getMeters() >= circuitLength) {
+			float acceleration = Strategy.getInstance().move(currentTime);
+			currentRocket.updateRocket(acceleration, circuitLength);
+		}
+	}
+
+	public void checkWinner() {
+		Rocket previousWinner = new Rocket();
+		previousWinner.setCurrentMeters(0.0f);
+		for (Rocket currentRocket : rocketsList) {
+			if (currentRocket.getCurrentMeters() >= circuitLength && currentRocket.getCurrentMeters() > previousWinner.getCurrentMeters()) {
 				hasWinner = true;
-				return currentRocket;
+				previousWinner = currentRocket;
+				winner = currentRocket.getName();
 			}
 		}
-		return null;
+	}
+	
+	public boolean anyRocketHasFuel() {
+		boolean haveFuel = false;
+		for(Rocket rocket : rocketsList) {
+			if(rocket.getDeposit().getCurrentFuel() > 0.0f) {
+				haveFuel = true;
+			}
+		}
+		return haveFuel;
 	}
 
 	public boolean isDepositEmpty(Rocket currentRocket) {
 		return currentRocket.isDepositEmpty();
-	}	
-	
+	}
+
 	public void addObserver(IObserver o) {
 		observers.add(o);
 	}
-	
+
 	public void removeObserver(IObserver o) {
 		observers.remove(o);
 	}
-	
+
 	public void notifyAllObserversCircuitUpdate() throws Exception {
-		for(IObserver o : observers) {
-			o.updateCircuit();
+		for (IObserver o : observers) {
+			o.updateCircuit(new CircuitDTO(this));
 		}
 	}
-	
+
 	public void notifyAllObserversCircuitHasNoWinner() throws Exception {
-		for(IObserver o : observers) {
+		for (IObserver o : observers) {
 			o.circuitHasNoWinner();
 		}
 	}
-	
+
 	public void startRace() throws Exception {
-		while (currentTime <= maximumTime && !hasWinner) {
+		while (currentTime <= maximumTime && !hasWinner && anyRocketHasFuel()) {
 			TimeUnit.SECONDS.sleep(1);
+			updateAllRockets();
+			checkWinner();
 			notifyAllObserversCircuitUpdate();
 			currentTime++;
 		}
-		if(!hasWinner) {
+		if (!hasWinner) {
 			notifyAllObserversCircuitHasNoWinner();
-		}		
+		}
 	}
 
 	public void addRockets(List<Rocket> rocketsList) {
 		this.rocketsList = rocketsList;
-		
 	}
-	
-	
+
 }

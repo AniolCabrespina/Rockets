@@ -15,7 +15,8 @@ public class CircuitDTO {
 	private float maximumTime;
 	private float currentTime;
 	private boolean hasWinner;
-	private List<Rocket> rocketsList = new LinkedList<Rocket>();
+	private String winner;
+	private List<RocketDTO> rocketsList = new LinkedList<RocketDTO>();
 	private List<IObserver> observers = new LinkedList<IObserver>();
 
 	public CircuitDTO() {
@@ -38,9 +39,12 @@ public class CircuitDTO {
 		this.circuitLength = circuit.getCircuitLength();
 		this.maximumTime = circuit.getMaximumTime();
 		this.hasWinner = circuit.getHasWinner();
-		this.currentTime = 0.0f;
-		this.rocketsList = circuit.getRocketsList();
+		this.currentTime = circuit.getCurrentTime();
+		for(Rocket rocket : circuit.getRocketsList()) {
+			rocketsList.add(new RocketDTO(rocket));
+		}
 		this.observers = circuit.getObservers();
+		this.winner = circuit.getWinner();
 	}
 
 	
@@ -73,11 +77,11 @@ public class CircuitDTO {
 		return currentTime;
 	}
 
-	public boolean isHasWinner() {
+	public boolean getHasWinner() {
 		return hasWinner;
 	}
 	
-	public List<Rocket> getRocketsList() throws InvalidParamException {
+	public List<RocketDTO> getRocketsList() throws InvalidParamException {
 		if (rocketsList == null || rocketsList.contains(null)) {
 			throw new InvalidParamException();
 		}
@@ -89,6 +93,10 @@ public class CircuitDTO {
 			throw new InvalidParamException();
 		}
 		return observers;
+	}
+
+	public String getWinner() throws InvalidParamException {
+		return winner;
 	}
 
 }
