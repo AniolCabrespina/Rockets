@@ -149,7 +149,9 @@ public class Circuit implements ISubject {
 			updateAllRockets();
 			checkWinner();
 			notifyAllObserversCircuitUpdate();
-			currentTime++;
+			if(!hasWinner) {
+				currentTime++;
+			}
 		}
 		if (!hasWinner) {
 			notifyAllObserversCircuitHasNoWinner();

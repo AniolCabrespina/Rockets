@@ -7,6 +7,7 @@ import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
 import domain.Circuit;
 import domain.Rocket;
+import persistence.RecordRepository;
 import utilities.InvalidParamException;
 import view.Main;
 
@@ -33,10 +34,17 @@ public class RaceController{
 		return rocketsListDTO;
 	}
 
-	public CircuitDTO createCircuit(Main main) throws InvalidParamException {
+	public CircuitDTO createCircuit(Main main) throws Exception {
 		circuit = CircuitFactory.getInstance().createCircuit();
 		circuit.addObserver(main);
 		return new CircuitDTO(circuit);
+	}
+	
+	public void updateCircuitRecord() throws Exception {
+		float record = RecordRepository.getCircuitRecord(circuit.getName());
+		if(record == -1|| record > circuit.getCurrentTime()) {
+			RecordRepository.updateCircuitRecord(circuit);
+		}
 	}
 
 	public void startRace() throws Exception {

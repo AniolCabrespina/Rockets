@@ -14,19 +14,21 @@ public class Main implements IObserver {
 
 	public static void main(String[] args) {
 		try {
+
 			List<RocketDTO> rocketsListDTO = new LinkedList<RocketDTO>();
 			rocketsListDTO = controller.createRockets();
 			CircuitDTO circuitDTO = controller.createCircuit(new Main());
 			controller.addRockets(rocketsListDTO);
 			startRace(circuitDTO);
+			controller.updateCircuitRecord();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
 	public static void startRace(CircuitDTO circuitDTO) throws Exception {
-		System.out.println("Starting competition. Circuit length: " + circuitDTO.getCircuitLength() + " Max time: "
-				+ circuitDTO.getMaximumTime());
+		System.out.println("Starting competition. Circuit: " + circuitDTO.getName() + " Length: "
+				+ circuitDTO.getCircuitLength() + " Max time: " + circuitDTO.getMaximumTime());
 
 		controller.startRace();
 	}
@@ -42,8 +44,7 @@ public class Main implements IObserver {
 			}
 			if (circuitDTO.getHasWinner()) {
 				System.out.println("\n" + "And the winner is: " + circuitDTO.getWinner() + " with a time of "
-						+ circuitDTO.getCurrentTime() + "\n" + "Ha ganao pisha! En el segundo: "
-						+ circuitDTO.getCurrentTime() + " segundo/s.");
+						+ circuitDTO.getCurrentTime() + ".");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
