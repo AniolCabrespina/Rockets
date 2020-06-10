@@ -1,73 +1,103 @@
 package domain;
 
-import utilities.InvalidParamException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Strategy {
 
-	private static Strategy instance;
-	
-	private Strategy() {
-		
-	}
+	private static Circuit circuit;
+	private static Rocket rocket;
+	private static List<Float> strategySolution = new ArrayList<Float>();
+	private static List<Float> strategyBest = new ArrayList<Float>();
+	private static Solution solution = new Solution();
+	private static Solution best = new Solution(30, -1);
 
-	public synchronized static Strategy getInstance() {
-		if (instance == null) {
-			instance = new Strategy();
+	public List<Float> calculateStrategy(Circuit circuit, Rocket rocket) throws Exception {
+		Strategy.circuit = circuit;
+		Strategy.rocket = rocket;
+
+		System.out.println("arribo");
+		BackMillorSolucio(0);
+		return strategyBest;
+	}
+/*
+	private void calculateStrategy(Circuit circuit, Rocket rocketStrat) {
+		strategy = new ArrayList<Float>();
+		Rocket rocket = new Rocket();
+		rocket = rocketStrat;
+		while (rocket.getDeposit().getCurrentFuel() > 0) {
+			strategy.add();
 		}
-		return instance;
+	}*/
+
+	public static void BackMillorSolucio(int k) throws Exception{
+			float j = rocket.getMaximumAcceleration();
+			float currentFuel = rocket.getDeposit().getCurrentFuel();
+			float currentVelocity = rocket.getCurrentVelocity();
+			float currentMeters = rocket.getCurrentMeters();
+			while (j >= 0 && k <= circuit.getMaximumTime()){ //Recorregut de tot l’arbre
+				currentFuel = rocket.getDeposit().getCurrentFuel();
+				currentVelocity = rocket.getCurrentVelocity();
+				currentMeters = rocket.getCurrentMeters();	
+				rocket.updateRocket(j);
+				if (acceptable()){ //no viola les restriccions
+					strategySolution.add(j);
+					if (finalSolution()) {
+						solution.setTimeMark(k);
+						solution.setMetersRun(rocket.getCurrentMeters());
+						if (betterSolution()) {							
+							best = solution;
+							strategyBest.addAll(strategySolution);
+							//else res
+						}
+					}			
+					else if (completable()) {
+						currentFuel = rocket.getDeposit().getCurrentFuel();
+						currentVelocity = rocket.getCurrentVelocity();
+						currentMeters = rocket.getCurrentMeters();						
+						BackMillorSolucio(k+1);
+					}
+					accelerationBack(j);
+				} //fi if
+				goBackButton(currentFuel, currentVelocity, currentMeters);
+				j--;
+					//passem al següent germà a la dreta
+			} // fi while
+		} // fi procediment
+	
+	public static boolean acceptable() {
+		return rocket.getDeposit().getCurrentFuel() > 0;
 	}
 	
-	public float move(float currentTime) throws InvalidParamException{
-		switch((int) currentTime) {
-		case 0:
-			return 0;
-		case 1:
-			return 30;
-		case 2:
-			return 5;
-		case 3:
-			return 5;
-		case 4:
-			return 0;
-		case 5:
-			return 0;
-		case 6:
-			return 0;
-		case 7:
-			return 0;
-		case 8:
-			return 0;
-		case 9:
-			return 0;
-		case 10:
-			return 0;
-		case 11:
-			return 1;
-		case 12:
-			return 0;
-		case 13:
-			return 0;
-		case 14:
-			return 0;
-		case 15:
-			return 0;
-		case 16:
-			return 0;
-		case 17:
-			return 0;
-		case 18:
-			return 0;
-		case 19:
-			return 0;
-		case 20:
-			return 0;
-		case 21:
-			return 0;
-		case 22:
-			return 100000;
-		default:
-			throw new InvalidParamException();		
-		
-		}
+	public static boolean finalSolution() {
+		return rocket.getCurrentMeters() >= circuit.getCircuitLength();
 	}
+	
+	public static boolean betterSolution() {
+		if(solution.getTimeMark() < best.getTimeMark()) {
+			return true;
+		}
+		else if(solution.getTimeMark() == best.getTimeMark()) {
+			if(solution.getMetersRun() > best.getMetersRun()) {
+				return true;
+			}			
+		}
+		return false;
+	}
+	
+	public static boolean completable() {
+		return rocket.getDeposit().getCurrentFuel() > 0 && rocket.getCurrentMeters() < circuit.getCircuitLength();
+	}
+	
+	public static void accelerationBack(float j) {
+		strategySolution.remove(strategySolution.lastIndexOf(j));
+	}
+	
+	public static void goBackButton(float currentFuel, float currentVelocity, float currentMeters) {
+		rocket.getDeposit().setCurrentFuel(currentFuel);
+		rocket.setCurrentVelocity(currentVelocity);
+		rocket.setCurrentMeters(currentMeters);
+	}
+	
 }

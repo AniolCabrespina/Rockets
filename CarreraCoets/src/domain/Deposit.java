@@ -30,6 +30,10 @@ public class Deposit {
 	public float getCurrentFuel() {
 		return currentFuel;
 	}
+	
+	public void setCurrentFuel(float currentFuel) {
+		this.currentFuel = currentFuel;
+	}
 
 	public void updateFuel(float consumption) throws InvalidParamException {
 		if ((currentFuel - consumption) < 0) {

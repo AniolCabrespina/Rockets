@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Rocket {
 	private String name;
 	private float currentVelocity;
 	private float currentMeters;
+	private List<Float> strategy;
 	private Deposit deposit;
 	private List<Propellant> propellants;
 
@@ -31,6 +33,7 @@ public class Rocket {
 		this.deposit = deposit;
 		this.propellants = new LinkedList<Propellant>();
 		this.propellants.addAll(propellants);
+		this.strategy = new ArrayList<Float>();
 	}
 
 	public Rocket(RocketDTO rocketDTO) throws InvalidParamException {
@@ -63,6 +66,10 @@ public class Rocket {
 		return currentMeters;
 	}
 	
+	public List<Float> getStrategy() {
+		return strategy;
+	}
+
 	public void setCurrentMeters(float currentMeters) {
 		this.currentMeters = currentMeters;
 	}
@@ -103,7 +110,7 @@ public class Rocket {
 		return this.propellants;
 	}
 	
-	public void updateRocket(float acceleration, float circuitLength) throws Exception {
+	public void updateRocket(float acceleration) throws Exception {
 		if(deposit.getCurrentFuel() > 0.0f) {
 			updatePropellantsAcceleration(acceleration);
 			calculateRocketAcceleration();
@@ -116,5 +123,28 @@ public class Rocket {
 				currentVelocity = 0.0f;
 			}
 		}		
+	}
+	
+	public float getMaximumAcceleration() {
+		float maximumAcceleration = 0;
+		for(Propellant propellant : propellants) {
+			if(propellant.getMaximumAcceleration() > maximumAcceleration) {
+				maximumAcceleration = propellant.getMaximumAcceleration();
+			}
+		}
+		return maximumAcceleration;
+	}
+
+	public void addStrategy(List<Float> strategy) throws InvalidParamException {
+		if(strategy == null || strategy.contains(null) || strategy.size() == 0) {
+			throw new InvalidParamException();
+		}
+		System.out.println(strategy);
+		this.strategy.addAll(strategy);
+		
+	}
+
+	public void setCurrentVelocity(float currentVelocity) {
+		this.currentVelocity = currentVelocity;		
 	}
 }

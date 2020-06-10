@@ -28,11 +28,14 @@ public class Main {
 			
 			rocketsListDTO = controller.createRockets();
 			controller.addRockets(rocketsListDTO);
+
+		
 			
 			startRace(circuitDTO);
 			controller.updateCircuitRecord();
 		} catch (Exception e) {
 			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

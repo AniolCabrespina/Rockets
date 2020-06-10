@@ -90,8 +90,10 @@ public class Circuit implements ISubject {
 
 	public void updateAllRockets() throws Exception {
 		for (Rocket currentRocket : rocketsList) {
-			float acceleration = Strategy.getInstance().move(currentTime);
-			currentRocket.updateRocket(acceleration, circuitLength);
+			List<Float> strategy = new ArrayList<Float>();
+			strategy.addAll(currentRocket.getStrategy());
+			float acceleration = strategy.get((int) currentTime);
+			currentRocket.updateRocket(acceleration);
 		}
 	}
 

@@ -27,9 +27,9 @@ public class RaceController{
 
 	}
 
-	public List<RocketDTO> createRockets() throws InvalidParamException {
+	public List<RocketDTO> createRockets() throws Exception {
 		List<Rocket> rocketsList = new ArrayList<Rocket>();
-		rocketsList.addAll(RocketFactory.getInstance().createRockets());
+		rocketsList.addAll(RocketFactory.getInstance().createRockets(circuit));
 		List<RocketDTO> rocketsListDTO = convertRocketsListToRocketsListDTO(rocketsList);
 		return rocketsListDTO;
 	}

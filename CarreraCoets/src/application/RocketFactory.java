@@ -3,10 +3,11 @@ package application;
 import java.util.LinkedList;
 import java.util.List;
 
+import domain.Circuit;
 import domain.Deposit;
 import domain.Propellant;
 import domain.Rocket;
-import utilities.InvalidParamException;
+import domain.Strategy;
 
 public class RocketFactory {
 
@@ -23,16 +24,16 @@ public class RocketFactory {
 		return instance;
 	}
 
-	public List<Rocket> createRockets() throws InvalidParamException {
+	public List<Rocket> createRockets(Circuit circuit) throws Exception {
 		List<Rocket> rocketsList = new LinkedList<Rocket>();
-		rocketsList.add(createViperX());
-		rocketsList.add(createStarV());
-		rocketsList.add(createFalconIX());
-		rocketsList.add(createSpeedyV());
+		rocketsList.add(createViperX(circuit));
+		rocketsList.add(createStarV(circuit));
+		rocketsList.add(createFalconIX(circuit));
+		rocketsList.add(createSpeedyV(circuit));
 		return rocketsList;
 	}
 
-	public Rocket createViperX() throws InvalidParamException {
+	public Rocket createViperX(Circuit circuit) throws Exception {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(40.0f));
 		rocketPropellants.add(new Propellant(50.0f));
@@ -42,10 +43,12 @@ public class RocketFactory {
 		Deposit fuelTank = new Deposit(2500.0f);
 		Rocket rocket = new Rocket("ViperX", fuelTank, rocketPropellants);
 
+		rocket.addStrategy(new Strategy().calculateStrategy(circuit, rocket));
+		
 		return rocket;
 	}
 
-	public Rocket createStarV() throws InvalidParamException {
+	public Rocket createStarV(Circuit circuit) throws Exception {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(30.0f));
 		rocketPropellants.add(new Propellant(18.0f));
@@ -54,11 +57,13 @@ public class RocketFactory {
 
 		Deposit fuelTank = new Deposit(2800.0f);
 		Rocket rocket = new Rocket("StarV", fuelTank, rocketPropellants);
+		
+		rocket.addStrategy(new Strategy().calculateStrategy(circuit, rocket));
 
 		return rocket;
 	}
 
-	public Rocket createFalconIX() throws InvalidParamException {
+	public Rocket createFalconIX(Circuit circuit) throws Exception {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(40.0f));
 		rocketPropellants.add(new Propellant(29.0f));
@@ -66,12 +71,14 @@ public class RocketFactory {
 
 		Deposit fuelTank = new Deposit(1900.0f);
 		Rocket rocket = new Rocket("FalconIX", fuelTank, rocketPropellants);
+		
+		rocket.addStrategy(new Strategy().calculateStrategy(circuit, rocket));
 
 		return rocket;
 	}
 
 	
-	public Rocket createSpeedyV() throws InvalidParamException {
+	public Rocket createSpeedyV(Circuit circuit) throws Exception {
 		List<Propellant> rocketPropellants = new LinkedList<Propellant>();
 		rocketPropellants.add(new Propellant(10.0f));
 		rocketPropellants.add(new Propellant(3.0f));
@@ -80,6 +87,8 @@ public class RocketFactory {
 
 		Deposit fuelTank = new Deposit(3200.0f);
 		Rocket rocket = new Rocket("SpeedyV", fuelTank, rocketPropellants);
+		
+		rocket.addStrategy(new Strategy().calculateStrategy(circuit, rocket));
 
 		return rocket;
 	}

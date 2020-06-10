@@ -23,6 +23,7 @@ public class CircuitFactory {
 
 	public Circuit createCircuit() throws InvalidParamException {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+		randomNum = 0;
 		switch (randomNum) {
 		case 0:
 			return new Circuit("MadMax", 1300.0f, 22.0f);
