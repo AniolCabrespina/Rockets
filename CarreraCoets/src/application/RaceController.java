@@ -8,8 +8,8 @@ import application.dto.RocketDTO;
 import domain.Circuit;
 import domain.Rocket;
 import persistence.RecordRepository;
+import utilities.IObserver;
 import utilities.InvalidParamException;
-import view.Main;
 
 public class RaceController{
 
@@ -34,9 +34,9 @@ public class RaceController{
 		return rocketsListDTO;
 	}
 
-	public CircuitDTO createCircuit(Main main) throws Exception {
+	public CircuitDTO createCircuit(IObserver observer) throws Exception {
 		circuit = CircuitFactory.getInstance().createCircuit();
-		circuit.addObserver(main);
+		circuit.addObserver(observer);
 		return new CircuitDTO(circuit);
 	}
 	
@@ -60,17 +60,11 @@ public class RaceController{
 		return rocketsListDTO;
 	}
 
-	public static List<Rocket> convertRocketsListDTOToRocketsList(List<RocketDTO> rocketsListDTO)
-			throws InvalidParamException {
-		List<Rocket> rocketsList = new ArrayList<Rocket>();
-		for (RocketDTO rocket : rocketsListDTO) {
-			rocketsList.add(new Rocket(rocket));
-		}
-		return rocketsList;
-	}
+	
 
 	public void addRockets(List<RocketDTO> rocketsListDTO) throws InvalidParamException {
-		circuit.addRockets(convertRocketsListDTOToRocketsList(rocketsListDTO));
+		List<Rocket> rocketsList = circuit.convertRocketsListDTOToRocketsList(rocketsListDTO);
+		circuit.addRockets(rocketsList);
 	}
 
 }

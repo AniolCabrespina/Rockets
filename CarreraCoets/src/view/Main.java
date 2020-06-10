@@ -8,7 +8,7 @@ import application.dto.CircuitDTO;
 import application.dto.RocketDTO;
 import utilities.IObserver;
 
-public class Main implements IObserver {
+public class Main {
 
 	private static RaceController controller = RaceController.getInstance();
 
@@ -16,9 +16,19 @@ public class Main implements IObserver {
 		try {
 
 			List<RocketDTO> rocketsListDTO = new LinkedList<RocketDTO>();
+			
+			CircuitDTO circuitDTO = controller.createCircuit(new IObserver() {
+				public void updateCircuit (CircuitDTO circuitDTO) throws Exception {
+					printCircuitDTO(circuitDTO);
+				}
+				public void circuitHasNoWinner() {
+					System.out.println("\n There is no winner.");
+				}
+			});
+			
 			rocketsListDTO = controller.createRockets();
-			CircuitDTO circuitDTO = controller.createCircuit(new Main());
 			controller.addRockets(rocketsListDTO);
+			
 			startRace(circuitDTO);
 			controller.updateCircuitRecord();
 		} catch (Exception e) {
@@ -33,7 +43,7 @@ public class Main implements IObserver {
 		controller.startRace();
 	}
 
-	public void updateCircuit(CircuitDTO circuitDTO) {
+	public static void printCircuitDTO(CircuitDTO circuitDTO) {
 		try {
 			System.out.println("\n" + "Current Time: " + circuitDTO.getCurrentTime() + "\n");
 			for (RocketDTO rocketDTO : circuitDTO.getRocketsList()) {
@@ -49,10 +59,6 @@ public class Main implements IObserver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void circuitHasNoWinner() {
-		System.out.println("\n There is no winner.");
 	}
 
 }

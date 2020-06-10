@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -52,10 +53,7 @@ public class Circuit implements ISubject {
 		this.currentTime = 0.0f;
 		this.hasWinner = circuitDTO.getHasWinner();
 		this.winner = circuitDTO.getWinner();
-		for (RocketDTO rocketDTO : circuitDTO.getRocketsList()) {
-			rocketsList.add(new Rocket(rocketDTO));
-		}
-		this.observers = circuitDTO.getObservers();
+		this.rocketsList = convertRocketsListDTOToRocketsList(circuitDTO.getRocketsList());
 	}
 
 	public String getName() {
@@ -160,6 +158,15 @@ public class Circuit implements ISubject {
 
 	public void addRockets(List<Rocket> rocketsList) {
 		this.rocketsList = rocketsList;
+	}
+	
+	public List<Rocket> convertRocketsListDTOToRocketsList(List<RocketDTO> rocketsListDTO)
+			throws InvalidParamException {
+		List<Rocket> rocketsList = new ArrayList<Rocket>();
+		for (RocketDTO rocket : rocketsListDTO) {
+			rocketsList.add(new Rocket(rocket));
+		}
+		return rocketsList;
 	}
 
 }

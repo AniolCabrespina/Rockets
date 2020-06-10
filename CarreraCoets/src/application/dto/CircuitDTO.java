@@ -5,7 +5,6 @@ import java.util.List;
 
 import domain.Circuit;
 import domain.Rocket;
-import utilities.IObserver;
 import utilities.InvalidParamException;
 
 public class CircuitDTO {
@@ -17,7 +16,6 @@ public class CircuitDTO {
 	private boolean hasWinner;
 	private String winner;
 	private List<RocketDTO> rocketsList = new LinkedList<RocketDTO>();
-	private List<IObserver> observers = new LinkedList<IObserver>();
 
 	public CircuitDTO() {
 
@@ -43,7 +41,6 @@ public class CircuitDTO {
 		for(Rocket rocket : circuit.getRocketsList()) {
 			rocketsList.add(new RocketDTO(rocket));
 		}
-		this.observers = circuit.getObservers();
 		this.winner = circuit.getWinner();
 	}
 
@@ -86,13 +83,6 @@ public class CircuitDTO {
 			throw new InvalidParamException();
 		}
 		return rocketsList;
-	}
-
-	public List<IObserver> getObservers() throws InvalidParamException {
-		if (observers == null || observers.contains(null)) {
-			throw new InvalidParamException();
-		}
-		return observers;
 	}
 
 	public String getWinner() throws InvalidParamException {
