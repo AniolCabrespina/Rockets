@@ -121,7 +121,10 @@ public class Circuit implements ISubject {
 		return currentRocket.isDepositEmpty();
 	}
 
-	public void addObserver(IObserver o) {
+	public void addObserver(IObserver o) throws InvalidParamException {
+		if (o == null) {
+			throw new InvalidParamException();
+		}
 		observers.add(o);
 	}
 
@@ -156,7 +159,10 @@ public class Circuit implements ISubject {
 		}
 	}
 
-	public void addRockets(List<Rocket> rocketsList) {
+	public void addRockets(List<Rocket> rocketsList) throws InvalidParamException {
+		if (rocketsList == null || rocketsList.contains(null)) {
+			throw new InvalidParamException();
+		}
 		this.rocketsList = rocketsList;
 	}
 	

@@ -34,7 +34,7 @@ public class RaceController{
 		return rocketsListDTO;
 	}
 
-	public CircuitDTO createCircuit(IObserver observer) throws Exception {
+	public CircuitDTO createCircuit(IObserver observer) throws InvalidParamException{
 		circuit = CircuitFactory.getInstance().createCircuit();
 		circuit.addObserver(observer);
 		return new CircuitDTO(circuit);
@@ -47,7 +47,7 @@ public class RaceController{
 		}
 	}
 
-	public void startRace() throws Exception {
+	public void startRace() throws Exception  {
 		circuit.startRace();
 	}
 
