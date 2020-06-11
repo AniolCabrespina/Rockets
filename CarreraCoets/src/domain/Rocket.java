@@ -12,7 +12,7 @@ public class Rocket {
 	private String name;
 	private float currentVelocity;
 	private float currentMeters;
-	private List<Float> strategy;
+	private List<Float> strategy = new ArrayList<Float>();;
 	private Deposit deposit;
 	private List<Propellant> propellants;
 
@@ -33,7 +33,6 @@ public class Rocket {
 		this.deposit = deposit;
 		this.propellants = new LinkedList<Propellant>();
 		this.propellants.addAll(propellants);
-		this.strategy = new ArrayList<Float>();
 	}
 
 	public Rocket(RocketDTO rocketDTO) throws InvalidParamException {
@@ -48,6 +47,7 @@ public class Rocket {
 		for (float maximumAcceleration : rocketDTO.getPropellantsMaximumAcceleration()) {
 			this.propellants.add(new Propellant(maximumAcceleration, rocketDTO.getCurrentAcceleration()));
 		}
+		this.strategy.addAll(rocketDTO.getStrategy());
 	}
 
 	public String getName() {
@@ -67,6 +67,7 @@ public class Rocket {
 	}
 	
 	public List<Float> getStrategy() {
+		System.out.println(strategy);
 		return strategy;
 	}
 
@@ -139,8 +140,10 @@ public class Rocket {
 		if(strategy == null || strategy.contains(null) || strategy.size() == 0) {
 			throw new InvalidParamException();
 		}
+
 		System.out.println(strategy);
 		this.strategy.addAll(strategy);
+		System.out.println(this.strategy);
 		
 	}
 

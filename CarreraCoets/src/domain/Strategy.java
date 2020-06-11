@@ -8,10 +8,21 @@ public class Strategy {
 
 	private static Circuit circuit;
 	private static Rocket rocket;
+	private static int trialsCounter = 100;
+	private static int improvesCounter = 2;
 	private static List<Float> strategySolution = new ArrayList<Float>();
 	private static List<Float> strategyBest = new ArrayList<Float>();
 	private static Solution solution = new Solution();
 	private static Solution best = new Solution(30, -1);
+	
+	public Strategy() {
+		trialsCounter = 100;
+		improvesCounter = 2;
+		strategySolution.clear();
+		strategyBest.clear();
+		solution = new Solution();
+		best = new Solution(30, -1);
+	}
 
 	public List<Float> calculateStrategy(Circuit circuit, Rocket rocket) throws Exception {
 		Strategy.circuit = circuit;
@@ -36,7 +47,10 @@ public class Strategy {
 			float currentFuel = rocket.getDeposit().getCurrentFuel();
 			float currentVelocity = rocket.getCurrentVelocity();
 			float currentMeters = rocket.getCurrentMeters();
-			while (j >= 0 && k <= circuit.getMaximumTime()){ //Recorregut de tot l’arbre
+			while (j >= 0 && k <= circuit.getMaximumTime() && improvesCounter > 0 && trialsCounter > 0){ //Recorregut de tot l’arbre
+				if(improvesCounter == 1) {
+					trialsCounter--;
+				}
 				currentFuel = rocket.getDeposit().getCurrentFuel();
 				currentVelocity = rocket.getCurrentVelocity();
 				currentMeters = rocket.getCurrentMeters();	
@@ -46,16 +60,14 @@ public class Strategy {
 					if (finalSolution()) {
 						solution.setTimeMark(k);
 						solution.setMetersRun(rocket.getCurrentMeters());
-						if (betterSolution()) {							
+						if (betterSolution()) {	
+							improvesCounter--;
 							best = solution;
 							strategyBest.addAll(strategySolution);
 							//else res
 						}
 					}			
-					else if (completable()) {
-						currentFuel = rocket.getDeposit().getCurrentFuel();
-						currentVelocity = rocket.getCurrentVelocity();
-						currentMeters = rocket.getCurrentMeters();						
+					else if (completable()) {					
 						BackMillorSolucio(k+1);
 					}
 					accelerationBack(j);
