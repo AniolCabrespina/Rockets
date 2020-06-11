@@ -30,9 +30,9 @@ public class Strategy {
 		Strategy.rocket = rocket;
 		backBestSolution(0);
 		if (trialsCounter <= 0 && best.getMetersRun() == -1) {
-			if(strategySolution == null || strategySolution.contains(null) || strategySolution.size() == 0) {
-				
-				for(int i = 0; i <= circuit.getMaximumTime(); i++) {
+			if (strategySolution == null || strategySolution.contains(null) || strategySolution.size() == 0) {
+
+				for (int i = 0; i <= circuit.getMaximumTime(); i++) {
 					strategySolution.add(rocket.getMaximumAcceleration());
 				}
 			}
@@ -52,9 +52,9 @@ public class Strategy {
 		float currentFuel = rocket.getDeposit().getCurrentFuel();
 		float currentVelocity = rocket.getCurrentVelocity();
 		float currentMeters = rocket.getCurrentMeters();
-		while (acceleration >= 0 && currentTime <= circuit.getMaximumTime() && improvesCounter > 0 && trialsImproveCounter > 0
-				&& trialsCounter > 0) { // Recorregut de tot l’arbre
-			if (improvesCounter == 1) {
+		while (acceleration >= 0 && currentTime <= circuit.getMaximumTime() && improvesCounter > 0
+				&& trialsImproveCounter > 0 && trialsCounter > 0) { // Recorregut de tot l’arbre
+			if (improvesCounter <= 1) {
 				trialsImproveCounter--;
 			}
 			trialsCounter--;
@@ -77,7 +77,7 @@ public class Strategy {
 					backBestSolution(currentTime + 1);
 				}
 				accelerationBack(acceleration);
-				
+
 			} // fi if
 			goBackButton(currentFuel, currentVelocity, currentMeters);
 			acceleration--;
