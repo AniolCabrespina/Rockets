@@ -90,5 +90,17 @@ public class CircuitDTO {
 	public String getWinner() throws InvalidParamException {
 		return winner;
 	}
+	
+	public String toString() {
+		String response = "\n" + "Current Time: " + currentTime + "\n";
+		for (RocketDTO rocketDTO : rocketsList) {
+				response += rocketDTO.toString() + circuitLength + rocketDTO.toStringV2() + "\n";			
+		}
+		if (hasWinner) {
+			response += "\n" + "And the winner is: " + winner + " with a time of "
+					+ currentTime + ".";
+		}
+		return response;		
+	}
 
 }

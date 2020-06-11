@@ -19,7 +19,7 @@ public class Main {
 
 			CircuitDTO circuitDTO = controller.createCircuit(new IObserver() {
 				public void updateCircuit(CircuitDTO circuitDTO) throws Exception {
-					printCircuitDTO(circuitDTO);
+					System.out.println(circuitDTO.toString());
 				}
 
 				public void circuitHasNoWinner() {
@@ -44,24 +44,6 @@ public class Main {
 				+ circuitDTO.getCircuitLength() + " Max time: " + circuitDTO.getMaximumTime());
 
 		controller.startRace();
-	}
-
-	public static void printCircuitDTO(CircuitDTO circuitDTO) {
-		try {
-			System.out.println("\n" + "Current Time: " + circuitDTO.getCurrentTime() + "\n");
-			for (RocketDTO rocketDTO : circuitDTO.getRocketsList()) {
-				System.out.println("\t Rocket: " + rocketDTO.getName() + " Acceleration: "
-						+ rocketDTO.getCurrentAcceleration() + " Speed: " + rocketDTO.getCurrentVelocity()
-						+ " Distance: " + rocketDTO.getCurrentMeters() + "/" + circuitDTO.getCircuitLength() + " Fuel: "
-						+ rocketDTO.getDepositCurrentFuel() + " / " + rocketDTO.getDepositTotalFuel());
-			}
-			if (circuitDTO.getHasWinner()) {
-				System.out.println("\n" + "And the winner is: " + circuitDTO.getWinner() + " with a time of "
-						+ circuitDTO.getCurrentTime() + ".");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

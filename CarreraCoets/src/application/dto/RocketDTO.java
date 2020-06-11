@@ -18,14 +18,14 @@ public class RocketDTO {
 	private float currentAcceleration;
 	private List<Float> propellantsMaximumAcceleration;
 	private List<Float> strategy;
-	
 
 	public RocketDTO() {
 
 	}
 
-	public RocketDTO(String name, float currentVelocity, float currentMeters, float depositTotalFuel, float depositCurrentFuel,
-			List<Float> propellantsMaximumAcceleration, float currrentAcceleration, List<Float> strategy) throws InvalidParamException {
+	public RocketDTO(String name, float currentVelocity, float currentMeters, float depositTotalFuel,
+			float depositCurrentFuel, List<Float> propellantsMaximumAcceleration, float currrentAcceleration,
+			List<Float> strategy) throws InvalidParamException {
 		this.name = name;
 		this.currentVelocity = currentVelocity;
 		this.currentMeters = currentMeters;
@@ -53,7 +53,7 @@ public class RocketDTO {
 			this.currentAcceleration += propellant.getCurrentAcceleration();
 		}
 		this.strategy = new ArrayList<Float>();
-		this.strategy.addAll(rocket.getStrategy());		
+		this.strategy.addAll(rocket.getStrategy());
 	}
 
 	public String getName() throws InvalidParamException {
@@ -85,7 +85,8 @@ public class RocketDTO {
 	}
 
 	public List<Float> getPropellantsMaximumAcceleration() throws InvalidParamException {
-		if (propellantsMaximumAcceleration.contains(0.0f) || propellantsMaximumAcceleration == null || propellantsMaximumAcceleration.size() == 0) {
+		if (propellantsMaximumAcceleration.contains(0.0f) || propellantsMaximumAcceleration == null
+				|| propellantsMaximumAcceleration.size() == 0) {
 			throw new InvalidParamException();
 		}
 		return propellantsMaximumAcceleration;
@@ -110,6 +111,15 @@ public class RocketDTO {
 			throw new InvalidParamException();
 		}
 		return strategy;
+	}
+
+	public String toString() {
+		return "\t Rocket: " + name + " Acceleration: " + currentAcceleration + " Speed: " + currentVelocity
+				+ " Distance: " + currentMeters + "/";
+	}
+
+	public String toStringV2() {
+		return " Fuel: " + depositCurrentFuel + " / " + depositTotalFuel;
 	}
 
 }
