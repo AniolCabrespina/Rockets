@@ -91,10 +91,7 @@ public class Circuit implements ISubject {
 	public void updateAllRockets() throws Exception {
 		for (Rocket currentRocket : rocketsList) {
 			List<Float> strategy = new ArrayList<Float>();
-			System.out.println("holiii");
-			System.out.println(currentRocket.getStrategy());
 			strategy.addAll(currentRocket.getStrategy());
-			System.out.println("holiii");
 			float acceleration = strategy.get((int) currentTime);
 			currentRocket.updateRocket(acceleration);
 		}

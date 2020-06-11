@@ -21,12 +21,14 @@ public class CircuitDTO {
 
 	}
 
-	public CircuitDTO(String name, float circuitLength, float maximumTime) throws InvalidParamException {
+	public CircuitDTO(String name, float circuitLength, float maximumTime, String winner, List<RocketDTO> rocketsList) throws InvalidParamException {
 		this.name = name;
 		this.circuitLength = circuitLength;
 		this.maximumTime = maximumTime;
 		this.currentTime = 0.0f;
 		this.hasWinner = false;
+		this.winner = winner;
+		this.rocketsList.addAll(rocketsList);
 	}	
 
 	public CircuitDTO(Circuit circuit) throws InvalidParamException {

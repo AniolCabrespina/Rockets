@@ -71,7 +71,6 @@ public class RecordRepository {
 			e.printStackTrace();
 			throw new InvalidParamException();
 		}
-
 	}
 
 }

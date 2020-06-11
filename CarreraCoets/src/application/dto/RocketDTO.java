@@ -31,8 +31,10 @@ public class RocketDTO {
 		this.currentMeters = currentMeters;
 		this.depositTotalFuel = depositTotalFuel;
 		this.depositCurrentFuel = depositCurrentFuel;
+		this.propellantsMaximumAcceleration = new LinkedList<Float>();
 		this.propellantsMaximumAcceleration.addAll(propellantsMaximumAcceleration);
 		this.currentAcceleration = currrentAcceleration;
+		this.strategy = new ArrayList<Float>();
 		this.strategy.addAll(strategy);
 	}
 
@@ -51,10 +53,7 @@ public class RocketDTO {
 			this.currentAcceleration += propellant.getCurrentAcceleration();
 		}
 		this.strategy = new ArrayList<Float>();
-		this.strategy.addAll(rocket.getStrategy());
-		System.out.println("RocketDTO");
-		System.out.println(this.strategy);
-		
+		this.strategy.addAll(rocket.getStrategy());		
 	}
 
 	public String getName() throws InvalidParamException {
@@ -107,7 +106,7 @@ public class RocketDTO {
 	}
 
 	public List<Float> getStrategy() throws InvalidParamException {
-		if (strategy.contains(0.0f) || strategy == null || strategy.size() == 0) {
+		if (strategy == null || strategy.contains(null) || strategy.size() == 0) {
 			throw new InvalidParamException();
 		}
 		return strategy;

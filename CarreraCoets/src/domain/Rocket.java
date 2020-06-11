@@ -139,8 +139,7 @@ public class Rocket {
 		if(strategy == null || strategy.contains(null) || strategy.size() == 0) {
 			throw new InvalidParamException();
 		}
-		this.strategy.addAll(strategy);		
-		System.out.println(this.strategy);
+		this.strategy.addAll(strategy);
 	}
 
 	public void setCurrentVelocity(float currentVelocity) {

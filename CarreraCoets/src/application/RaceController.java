@@ -42,7 +42,7 @@ public class RaceController{
 	
 	public void updateCircuitRecord() throws Exception {
 		float record = RecordRepository.getCircuitRecord(circuit.getName());
-		if(record == -1|| record > circuit.getCurrentTime()) {
+		if(record <= 0 || record > circuit.getCurrentTime()) {
 			RecordRepository.updateCircuitRecord(circuit);
 		}
 	}
@@ -59,8 +59,6 @@ public class RaceController{
 		}
 		return rocketsListDTO;
 	}
-
-	
 
 	public void addRockets(List<RocketDTO> rocketsListDTO) throws InvalidParamException {
 		List<Rocket> rocketsList = circuit.convertRocketsListDTOToRocketsList(rocketsListDTO);
