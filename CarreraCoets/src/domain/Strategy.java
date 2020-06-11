@@ -28,7 +28,6 @@ public class Strategy {
 	public List<Float> calculateStrategy(Circuit circuit, Rocket rocket) throws Exception {
 		Strategy.circuit = circuit;
 		Strategy.rocket = rocket;
-		System.out.println(improvesCounter);
 		backBestSolution(0);
 		if (trialsCounter <= 0 && best.getMetersRun() == -1) {
 			if(strategySolution == null || strategySolution.contains(null) || strategySolution.size() == 0) {
