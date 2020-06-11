@@ -17,7 +17,7 @@ public class Strategy {
 
 	public Strategy() {
 		trialsCounter = 1000000000;
-		trialsImproveCounter = 100;
+		trialsImproveCounter = 10000000;
 		improvesCounter = 2;
 		strategySolution.clear();
 		strategyBest.clear();
@@ -28,6 +28,7 @@ public class Strategy {
 	public List<Float> calculateStrategy(Circuit circuit, Rocket rocket) throws Exception {
 		Strategy.circuit = circuit;
 		Strategy.rocket = rocket;
+		System.out.println(improvesCounter);
 		backBestSolution(0);
 		if (trialsCounter <= 0 && best.getMetersRun() == -1) {
 			if(strategySolution == null || strategySolution.contains(null) || strategySolution.size() == 0) {
