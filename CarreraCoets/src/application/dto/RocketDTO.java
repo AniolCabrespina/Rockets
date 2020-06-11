@@ -52,6 +52,8 @@ public class RocketDTO {
 		}
 		this.strategy = new ArrayList<Float>();
 		this.strategy.addAll(rocket.getStrategy());
+		System.out.println("RocketDTO");
+		System.out.println(this.strategy);
 		
 	}
 

@@ -67,7 +67,6 @@ public class Rocket {
 	}
 	
 	public List<Float> getStrategy() {
-		System.out.println(strategy);
 		return strategy;
 	}
 
@@ -140,11 +139,8 @@ public class Rocket {
 		if(strategy == null || strategy.contains(null) || strategy.size() == 0) {
 			throw new InvalidParamException();
 		}
-
-		System.out.println(strategy);
-		this.strategy.addAll(strategy);
+		this.strategy.addAll(strategy);		
 		System.out.println(this.strategy);
-		
 	}
 
 	public void setCurrentVelocity(float currentVelocity) {
