@@ -109,8 +109,8 @@ public class Strategy {
 		return rocket.getDeposit().getCurrentFuel() > 0 && rocket.getCurrentMeters() < circuit.getCircuitLength();
 	}
 
-	public static void accelerationBack(float j) {
-		strategySolution.remove(strategySolution.lastIndexOf(j));
+	public static void accelerationBack(float acceleration) {
+		strategySolution.remove(strategySolution.lastIndexOf(acceleration));
 	}
 
 	public static void goBackButton(float currentFuel, float currentVelocity, float currentMeters) {
